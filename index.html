@@ -547,7 +547,7 @@
                     <tr>
                         <td>
                             <div class="dialopen symbols" data={{id}} title="Show dial">6</div>
-                            <div class="tooltip shipdial">
+                            <div class="tooltip shipdial" style="width: 6em; height: 7em;">
                                 <table>
                                     {{#diallist}}
                                     <tr>
@@ -566,7 +566,7 @@
                 <div class="duplicate symbols" data="{{id}}" title="Duplicate">&#xE8;</div>
                 {{/unique}}
             </div>
-            <div style="margin:2px;float:left;width:2.5em;font-size:0.8em">
+            <div style="float:left">
                 <div class="statskill">{{skill}}</div>
                 <div class="statfire"><span class="symbols">%</span><span class="val">{{fire}}</span></div>
                 <div class="statevade"><span class="symbols">^</span><span class="val">{{evade}}</span></div>
@@ -574,8 +574,8 @@
                 <div class="statshield"><span class="cshield"></span><span class="val">{{shield}}</span></div>
             </div>
             <div class="shipname">{{name}} (<span class="upts">{{points}}</span><span style="display:none" class="pts">{{points}}</span>)</div>
-            <div class="shipname" style="font-size:0.8em;color:#ddd">{{shipname}}</div>
-            <div style="font-size:0.8em" class="actionlist">{{{actionstring}}}</div>
+            <div class="shipname" style="font-size:2em;color:#ddd">{{shipname}}</div>
+            <div style="font-size:1.5em" class="actionlist">{{{actionstring}}}</div>
         </div>
 
         <table class="upgs">
@@ -610,7 +610,7 @@
                         </table>
                     </div>
                 </td>
-                <td>{{shipname}}</td>
+                <td style="font-size: 1.5em;">{{shipname}}</td>
             </tr>
             <tr>
                 <td class="actionlist">

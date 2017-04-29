@@ -307,8 +307,12 @@ article {
     font-size: 1em;
 }
 
+.shipupgrades {
+    white-space: normal;
+}
+
 .shipupgrades .Elite {
-    display: none
+    display: none;
 }
 
 .ack {
@@ -320,10 +324,9 @@ article {
 }
 
 .caroussel li:nth-child(-n+5) tr .tooltip {
-    left: 180px;
     vertical-align: top;
     margin-top: 0em;
-    top: 0
+    top: 0;
 }
 
 .caroussel li:nth-child(n+5) tr .tooltip {
@@ -685,8 +688,8 @@ table {
 }
 
 .duplicate {
-    top: 3.6em;
-    margin-right: 0.5ex;
+    top: 5em;
+    margin-right: 1ex;
     font-size: 1.5em;
     color: #fff
 }
@@ -697,7 +700,7 @@ table {
 }
 
 .dialopen {
-    top: 2.3em;
+    top: 3em;
     right: 0;
     margin-right: 0.5ex;
     padding-left: 0.5ex;
@@ -1131,7 +1134,8 @@ select {
 .phasepanel .symbols {
     border: 1px;
     border-radius: 50%;
-    border-style: solid
+    border-style: solid;
+    cursor: pointer;
 }
 
 tttable {
@@ -1439,7 +1443,7 @@ tttable {
 
 #listunits .close {
     font-size: 2em;
-    top: 0.3em;
+    width: 1em;
 }
 
 .counttoken,
@@ -1542,7 +1546,7 @@ tttable {
     font-family: 'symbols';
     padding: 0;
     display: inline-block;
-    font-size: 2.3ex;
+    font-size: 4ex;
     text-align: center;
     text-decoration: none;
     box-shadow: 1px 1px 3px #000;
@@ -1761,6 +1765,10 @@ label {
 .import {
     background: #fff;
     color: #4682b4
+}
+
+.actionlist {
+    font-size: 1.5em;
 }
 
 .animated {
@@ -2392,7 +2400,7 @@ span.share-buttons a {
 }
 
 ul.caroussel {
-    padding: 5px 150px 0 25px;
+    padding: 10px 150px 0 25px;
     /*perspective:780px;*/
     background-color: transparent;
     width: calc(100% - 210px);
@@ -2405,10 +2413,11 @@ ul.caroussel {
 }
 
 .headimg {
-    width: 180px;
+    width: 22em;
     margin: 0;
     border: 0;
-    padding: 0
+    padding: 0;
+    height: 10em;
 }
 
 ul.caroussel li {
@@ -2425,7 +2434,8 @@ ul.caroussel li {
     /*opacity:.5;*/
     z-index: 0;
     transition: all .45s;
-    margin: 20px 45px 0 0
+    margin: 20px 45px 0 0;
+    background-color: black;
 }
 
 ul#caroussel li {
@@ -2447,7 +2457,8 @@ ul#listunits {
 
 ul#listunits li {
     height: 32em;
-    margin-top: 40px
+    margin-top: 40px;
+    width: 22em;
 }
 
 ul#caroussel li.highlighted {
@@ -2537,8 +2548,6 @@ ul.listunits .shipdial {
     background-position: center;
     width: 35px;
     height: 35px;
-    max-width: 35px;
-    max-height: 35px;
     margin: 2px;
     cursor: pointer
 }
@@ -2550,15 +2559,16 @@ ul.caroussel button {
 
 .shipdial.tooltip {
     background: #000;
+    font-size: 2em;
 }
 
 .shipdial {
     color: #fff;
-    max-width: 30px;
     width: 30px;
     font-size: 6px;
     empty-cells: hide;
     padding: 3px;
+    display: none;
 }
 
 .shipdial td {
@@ -2617,10 +2627,6 @@ ul.caroussel:not(:hover) li.highlighted {
 .upg span {
     float: right;
     padding-right: 2px;
-}
-
-.shipdial {
-    display: none
 }
 
 .shipname {
