@@ -1,2 +1,1 @@
-#X-Wing Squadron Benchmark
- 
+# X-Wing-Sim
