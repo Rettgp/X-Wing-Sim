@@ -24,7 +24,7 @@ var UPGRADES= [
 	consumes:true,
         type: TORPEDO,
 	firesnd:"missile",
-        points: 4,
+        points: 20,
 	done:true,
         attack: 4,
 	init: function(sh) {
