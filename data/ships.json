@@ -2622,7 +2622,7 @@
     "Lancer-class Pursuit Craft": {
         "firesnd": "slave_fire",
         "flysnd": "slave_fly",
-        "scale": 1.35,
+        "scale": 0.8,
         "img": ["lancer.png"],
         "faction": ["SCUM"],
         "weapon_type": "Mobilelaser",

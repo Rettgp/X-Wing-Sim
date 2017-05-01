@@ -1000,11 +1000,11 @@ select {
 .phasepanel .symbols {
     text-decoration: none;
     text-align: center;
-    min-width: 20px;
+    min-width: 1em;
     border-color: #fff;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.4);
-    display: table-cell
+    display: table-cell;
 }
 
 .disabled,
@@ -1136,6 +1136,7 @@ select {
     border-radius: 50%;
     border-style: solid;
     cursor: pointer;
+    font-size: 1.5em;
 }
 
 tttable {
