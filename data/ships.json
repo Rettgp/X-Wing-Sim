@@ -1753,7 +1753,7 @@
         "firesnd": "slave_fire",
         "flysnd": "slave_fly",
         "code": "i",
-        "scale": 0.6,
+        "scale": 0.9,
         "faction": ["SCUM"],
         "img": ["aggressor.png"],
         "weapon_type": "Laser",
