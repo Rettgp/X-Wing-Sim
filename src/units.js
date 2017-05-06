@@ -3035,6 +3035,8 @@ Unit.prototype = {
             this.removestresstoken();
         }
     },
+    premove: function () {},
+    reavelmaneuver: function (dial) {},
     completemaneuver: function (dial, difficulty, halfturn, finalm) {
         var path = P[dial].path;
         var m, oldm;

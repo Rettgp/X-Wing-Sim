@@ -6159,68 +6159,76 @@ var UPGRADES = [
         type: TITLE,
         points: 0,
         ship: "TIE Striker",
-        done: false,
-        /*init: function(sh) {
-	 var self=this;
-	 sh.adaptive=-1;
-	 
-	 if (typeof sh.facultativeailerons=="undefined") 
-	     sh.facultativeailerons=false;
-	 
-	 sh.wrap_after("premove",this,function() {
-	     var T = ["F1","BR1","BL1"];
-	     var p=this.moves[0];
-	     if (!this.facultativeailerons) this.moves=[];
-	     this.moves=this.moves.concat([this.getpathmatrix(p,T[0]),
-					   this.getpathmatrix(p,T[1]),
-					   this.getpathmatrix(p,T[2])]);
-	 });
-     
-	 sh.wrap_before("beginactivation",this,function() {
-	     var old=this.maneuver;
-	     var gd=this.getdial();
-	     var p=[];
-	     var q=[];
-	     for (var i=0; i<gd.length; i++) 
-		 if (gd[i].move.match(/F1|BL1|BR1/)) { 
-		     p.push(this.getpathmatrix(this.m,gd[i].move));
-		     q.push(i);
-		 }
-	     
-	     if (this.adaptive<round) {
-		 this.adaptive=round;
-	     this.donoaction([{org:self,type:"TITLE",name:self.name,action:function(n) {
-		 this.wrap_after("candoendmaneuveraction",this,function() {
-		     return false;
-		 }).unwrapper("cleanupmaneuver");
-		 this.wrap_after("getdial",this,function(gd) {
-		     var p=[];
-		     for (var i=0; i<gd.length; i++) {
-			 p[i]={move:gd[i].move,difficulty:"WHITE"};
-		     }
-		     return p;
-		 }).unwrapper("endmaneuver");
+        done: true,
+        init: function (sh) {
+            var self = this;
+            sh.adaptive = -1;
 
-		 this.wrap_before("cleanupmaneuver",self,function() {
-		     this.maneuver=old;		 
-		     this.cleanupmaneuver.unwrap(self);
-		     this.endnoaction(n,"TITLE");
+            if (typeof sh.facultativeailerons == "undefined")
+                sh.facultativeailerons = false;
 
-		     //this.doselection(function(nn) {
-			 this.hasmoved=false;
-		     this.newlock().done(function() {
-			 this.newlock().done(nextactivation);
-			 nextactivation();
-		     }.bind(this));
-		 });
-		 this.resolveactionmove(p,function(t,k) {
-		     this.maneuver=q[k];
-		     this.resolvemaneuver();
-		 }.bind(this),false,true);
-	     }.bind(this)}],"",this.facultativeailerons);
-	    }
-	 });
-     }*/
+            sh.wrap_after("premove", this, function () {
+                var T = ["F1", "BR1", "BL1"];
+                var p = this.moves[0];
+                if (!this.facultativeailerons) this.moves = [];
+                this.moves = this.moves.concat([this.getpathmatrix(p, T[0]),
+                           this.getpathmatrix(p, T[1]),
+                           this.getpathmatrix(p, T[2])]);
+            });
+
+            sh.wrap_before("beginactivation", this, function () {
+                var old = this.maneuver;
+                var gd = this.getdial();
+                var p = [];
+                var q = [];
+                for (var i = 0; i < gd.length; i++)
+                    if (gd[i].move.match(/F1|BL1|BR1/)) {
+                        p.push(this.getpathmatrix(this.m, gd[i].move));
+                        q.push(i);
+                    }
+
+                if (this.adaptive < round) {
+                    this.adaptive = round;
+                    this.donoaction([{
+                        org: self,
+                        type: "TITLE",
+                        name: self.name,
+                        action: function (n) {
+                            this.wrap_after("candoendmaneuveraction", this, function () {
+                                return false;
+                            }).unwrapper("cleanupmaneuver");
+                            this.wrap_after("getdial", this, function (gd) {
+                                var p = [];
+                                for (var i = 0; i < gd.length; i++) {
+                                    p[i] = {
+                                        move: gd[i].move,
+                                        difficulty: "WHITE"
+                                    };
+                                }
+                                return p;
+                            }).unwrapper("endmaneuver");
+
+                            this.wrap_before("cleanupmaneuver", self, function () {
+                                this.maneuver = old;
+                                this.cleanupmaneuver.unwrap(self);
+                                this.endnoaction(n, "TITLE");
+
+                                //this.doselection(function(nn) {
+                                this.hasmoved = false;
+                                this.newlock().done(function () {
+                                    this.newlock().done(nextactivation);
+                                    nextactivation();
+                                }.bind(this));
+                            });
+                            this.resolveactionmove(p, function (t, k) {
+                                this.maneuver = q[k];
+                                this.resolvemaneuver();
+                            }.bind(this), false, true);
+                        }.bind(this)
+                    }], "", this.facultativeailerons);
+                }
+            });
+        }
     },
     {
         name: "Swarm Leader",
