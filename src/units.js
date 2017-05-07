@@ -311,7 +311,7 @@ var A = {
         color: RED
     },
     MOBILELASER: {
-        key: "<",
+        key: "%",
         color: RED
     },
     LASER180: {
@@ -915,7 +915,9 @@ Unit.prototype = {
         var str = "";
         for (var j = 0; j < this.upgradetype.length; j++)
             if (this.upg[j] == -1)
-                str += "<button num=" + j + " class='upgrades " + (this.upgradetype[j]).replace(/\|/g, "") + "'>+</button>";
+                str += "<button num=" + j + " class='upgrades " + (this.upgradetype[j]).replace(/\|/g, "") + "'><sup class='label'>" +
+                this.getupgradelist(this.upgradetype[j]).length +
+                "</sup></button>";
         return str;
     },
     showskill_old: function () {

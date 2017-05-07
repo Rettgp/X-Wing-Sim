@@ -151,50 +151,21 @@
     </section>
 
     <article id="creation" style="display:none" class="mainarticle">
-        <div>
-            <div id="unitfilter" class="selector">
-                <div>Search</div>
-                <input style="width:100%" type="search" id="textfilter" class="textfilter" onchange="textfilter($(this).val())">
-                <div>Upgrades</div>
-                <div><input type="checkbox" id="fturret" onclick="unitfilter(TURRET)"><label for="fturret" class="upgrades Turret"></label>
-                    <input type="checkbox" id="fcrew" onclick="unitfilter(CREW)"><label for="fcrew" class="upgrades Crew"></label></div>
-                <div><input type="checkbox" id="fastromech" onclick="unitfilter(ASTROMECH)"><label for="fastromech" class="upgrades Astromech"></label>
-                    <input type="checkbox" id="fsalvaged" onclick="unitfilter(SALVAGED)"><label for="fsalvaged" class="upgrades Salvaged"></label></div>
-                <div><input type="checkbox" id="fsystem" onclick="unitfilter(SYSTEM)"><label for="fsystem" class="upgrades System"></label>
-                    <input type="checkbox" id="fcannon" onclick="unitfilter(CANNON)"><label for="fcannon" class="upgrades Cannon"></label></div>
-                <div><input type="checkbox" id="ftorpedo" onclick="unitfilter(TORPEDO)"><label for="ftorpedo" class="upgrades Torpedo"></label>
-                    <input type="checkbox" id="fmissile" onclick="unitfilter(MISSILE)"><label for="fmissile" class="upgrades Missile"></label></div>
-                <div><input type="checkbox" id="fbomb" onclick="unitfilter(BOMB)"><label for="fbomb" class="upgrades Bomb"></label>
-                    <input type="checkbox" id="fillicit" onclick="unitfilter(ILLICIT)"><label for="fillicit" class="upgrades Illicit"></label></div>
-                <div><input type="checkbox" id="ftech" onclick="unitfilter(TECH)"><label for="ftech" class="upgrades Tech"></label></div>
-                <div>Actions</div>
-                <div><input type="checkbox" id="ffocus" onclick="actionfilter('FOCUS')"><label for="ffocus" class="symbols GREEN">f</label>
-                    <input type="checkbox" id="fevade" onclick="actionfilter('EVADE')"><label for="fevade" class="symbols GREEN">e</label></div>
-                <div><input type="checkbox" id="froll" onclick="actionfilter('ROLL')"><label for="froll" class="symbols GREEN">r</label>
-                    <input type="checkbox" id="ftarget" onclick="actionfilter('TARGET')"><label for="ftarget" class="symbols GREEN">l</label></div>
-                <div><input type="checkbox" id="fboost" onclick="actionfilter('BOOST')"><label for="fboost" class="symbols GREEN">b</label>
-                    <input type="checkbox" id="fcloak" onclick="actionfilter('CLOAK')"><label for="fcloak" class="symbols GREEN">k</label></div>
-                <div><input type="checkbox" id="fslam" onclick="actionfilter('SLAM')"><label for="fslam" class="symbols GREEN">s</label>
-                    <input type="checkbox" id="farc" onclick="actionfilter('ARCROTATE')"><label for="farc" class="symbols GREEN">R</label></div>
-                <div>Maneuvers</div>
-                <table id="dialfilter"></table>
-            </div>
-            <button style="float:left" onclick="$('#unitfilter').toggle();">Filter</button>
-            <div class="selector">
-                <span class="REBEL m-rebel" onclick="currentteam.changefaction('REBEL')"></span>
-                <span class="SCUM m-scum" onclick="currentteam.changefaction('SCUM')"></span>
-                <span class="EMPIRE m-empire" onclick="currentteam.changefaction('EMPIRE')"></span>
-            </div>
-
-            <div class="unitlist">
-                <ul id="caroussel" class="caroussel"></ul>
-            </div>
-            <div class="selector">
-                <h3><span id="totalpts">0</span>&nbsp;<span class="total m-totalpts"></span></h3>
-            </div>
-            <div class="unitlist">
-                <ul id="listunits" class="caroussel"></ul>
-            </div>
+        <div class="bg"></div>
+        <div style="text-align:center;padding-top:5em;text-decoration:underline">
+            <span class="factions REBEL m-rebel" onclick="currentteam.changefaction('REBEL')"></span>
+            <span class="factions SCUM m-scum" onclick="currentteam.changefaction('SCUM')"></span>
+            <span class="factions EMPIRE m-empire" onclick="currentteam.changefaction('EMPIRE')"></span>
+        </div>
+        <div class="unitlist">
+            <ul id="listunits" class="caroussel"></ul>
+        </div>
+        <div class="unitlist">
+            <ul id="caroussel" class="caroussel"></ul>
+        </div>
+        <div class="selector">
+            <h3><span id="totalpts">0</span>&nbsp;<span class="total m-totalpts"></span></h3>
+        </div>
     </article>
 
 
@@ -538,109 +509,162 @@
 
     </script>
 
+    <script id="unit-printable" type="x-tmpl-mustache">
+        <table class="printtable">
+            <tr class="unitname">
+                <th class="unitname" colspan="2">{{name}}</th>
+            </tr>
+            {{#upgrades}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{points}}</td>
+            </tr>
+            {{/upgrades}}
+            <tr>
+                <th>Total</th>
+                <th>{{totpoints}}</th>
+            </tr>
+        </table>
+    </script>
+
     <script id="unit-creation" type="x-tmpl-mustache">
-        <img class="headimg" src="png/{{faction}}/{{imgname}}.png">
-        <div style="width:100%;position:absolute;top:0;">
-            <div style="float:right">
+        <div>
+            <div class="iconpanel">
                 <div class="close" data={{id}} title="Remove">&#xd7;</div>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="dialopen symbols" data={{id}} title="Show dial">6</div>
-                            <div class="tooltip shipdial" style="width: 6em; height: 7em;">
-                                <table>
-                                    {{#diallist}}
-                                    <tr>
-                                        {{#item}}
-                                        <td>{{.}}</td>{{/item}} {{#moves}}
-                                        <td><span class="symbols {{difficulty}}">{{key}}</span></td>
-                                        {{/moves}}
-                                    </tr>
-                                    {{/diallist}}
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
                 {{#unique}}
                 <div class="duplicate symbols" data="{{id}}" title="Duplicate">&#xE8;</div>
                 {{/unique}}
             </div>
-            <div style="float:left">
+            <div class="statpanel">
                 <div class="statskill">{{skill}}</div>
                 <div class="statfire"><span class="symbols">%</span><span class="val">{{fire}}</span></div>
                 <div class="statevade"><span class="symbols">^</span><span class="val">{{evade}}</span></div>
                 <div class="stathull"><span class="chull"></span><span class="val">{{hull}}</span></div>
                 <div class="statshield"><span class="cshield"></span><span class="val">{{shield}}</span></div>
             </div>
-            <div class="shipname">{{name}} (<span class="upts">{{points}}</span><span style="display:none" class="pts">{{points}}</span>)</div>
-            <div class="shipname" style="font-size:2em;color:#ddd">{{shipname}}</div>
-            <div style="font-size:1.5em" class="actionlist">{{{actionstring}}}</div>
+            <img class="headimg" alt="" src="png/{{faction}}/{{imgname}}.png">
         </div>
-
-        <table class="upgs">
-            <tr>
-                <td colspan=3 class="upgavail">{{{upgradeaddstring}}}</td>
-            </tr>
-            <tbody class="upg"></tbody>
-            <tbody class="upglist"></tbody>
-        </table>
+        <div>
+            <div class="pilotname">{{name}}<span style="display:none" class="pts">{{points}}</span></div>
+            <div class="shipname">{{shipname}}</div>
+            <div class="actionlist">{{{actionstring}}}</div>
+        </div>
+        <div>
+            <div class="tabpanel">
+                <span class="upgradelists m-upgrades" data="{{id}}"></span>
+                <span class="statistics m-stats" data="{{id}}"></span>
+                <span class="moves m-moves" data="{{id}}"></span>
+                <span class="dialopen m-dial" data={{id}} title="Show dial"></span>
+            </div>
+            <div class="upts"><span>{{points}}</span>/<span></span></div>
+            <table class="upgs">
+                <tr>
+                    <td class="upgavail" colspan=4>{{{upgradeaddstring}}}</td>
+                </tr>
+                <tbody class="upg"></tbody>
+                <tbody class="upglist"></tbody>
+                <tbody class="statlist">
+                    <tr>
+                        <td colspan=4>
+                            <svg class="statisticsvg" viewbox="-375 -550 1000 1000"></svg>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="movelist">
+                    <tr>
+                        <td colspan=4>
+                            <svg class="movesvg" viewbox="-175 -300 650 650"></svg>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="shipdial">
+                    <tr>
+                        <td colspan=4>
+                            <table>
+                                {{#diallist}}
+                                <tr>
+                                    {{#item}}
+                                    <td>{{.}}</td>{{/item}} {{#moves}}
+                                    <td><span class="symbols {{difficulty}}">{{key}}</span></td>
+                                    {{/moves}}
+                                </tr>
+                                {{/diallist}}
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </script>
 
     <script id="faction" type="x-tmpl-mustache">
-        <table>
-            <tr>
-                <td rowspan="3">
-                    <div onclick="switchdialimg(true)" class="shipimg" style="background-image:url(png/{{shipimg}})">
-                        <div class="xsymbols RED">{{fire}}</div>
-                        <div class="xsymbols GREEN">{{evade}}</div>
-                        <div class="xsymbols YELLOW">{{hull}}</div>
-                        <div class="xsymbols BLUE">{{shield}}</div>
-                    </div>
-                    <div class="shipdial" onclick="switchdialimg(false)">
-                        <table>
-                            {{#diallist}}
-                            <tr>
-                                {{#item}}
-                                <td>{{.}}</td>{{/item}} {{#moves}}
-                                <td><span class="symbols {{difficulty}}">{{key}}</span></td>
-                                {{/moves}}
-                            </tr>
-                            {{/diallist}}
-                        </table>
-                    </div>
-                </td>
-                <td style="font-size: 1.5em;">{{shipname}}</td>
-            </tr>
-            <tr>
-                <td class="actionlist">
-                    {{#actionlist}}
-                    <code class="GREEN symbols">{{.}}</code> {{/actionlist}}
-                </td>
-            </tr>
-            <tr>
-                <td class="shipupgrades">
-                    {{#shipupgrades}}
-                    <code class="upgrades {{.}}"></code> {{/shipupgrades}} {{#hastitle}}
-                    <code class="upgrades Title"></code>{{/hastitle}}
-                    <code class="upgrades Mod"></code>
-                </td>
-            </tr>
-        </table>
-        <table class="pilots">
-            {{#pilots}}
-            <tr data="{{pilotid}}">
-                <td><button pilotid="{{pilotid}}" onclick="addunit({{pilotid}})">+</button></td>
-                <td>{{trname}}</td>
-                <td>({{points}})</td>
-                <td class="statskill">{{skill}}</td>
-                <td>{{#haselite}}<code class="upgrades Elite"></code>{{/haselite}}</td>
-                {{#tooltip}}
-                <td class="tooltip">{{{.}}}</td>{{/tooltip}} {{^tooltip}}
-                <td></td>{{/tooltip}}
-            </tr>
-            {{/pilots}}
-        </table>
+        <div id="largeship">
+            <table>
+                <tr>
+                    <td class="shipname">{{shipname}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div onclick="switchdialimg(true)" class="largeshipimg" style="background-image:url(png/{{shipimg}})">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="shipdetails">
+            <table>
+                <tr>
+                    <td rowspan="3">
+                        <div onclick="switchdialimg(true)" class="shipimg" style="background-image:url(png/{{shipimg}})">
+                            <div class="xsymbols RED">{{fire}}</div>
+                            <div class="xsymbols GREEN">{{evade}}</div>
+                            <div class="xsymbols YELLOW">{{hull}}</div>
+                            <div class="xsymbols BLUE">{{shield}}</div>
+                        </div>
+                        <div class="shipdial" onclick="switchdialimg(false)">
+                            <table>
+                                {{#diallist}}
+                                <tr>
+                                    {{#item}}
+                                    <td>{{.}}</td>{{/item}} {{#moves}}
+                                    <td><span class="symbols {{difficulty}}">{{key}}</span></td>
+                                    {{/moves}}
+                                </tr>
+                                {{/diallist}}
+                            </table>
+                        </div>
+                    </td>
+                    <td class="shipname">{{shipname}}</td>
+                </tr>
+                <tr>
+                    <td class="actionlist">
+                        <span class="{{primary}}"></span> {{#actionlist}}
+                        <code class="GREEN symbols">{{.}}</code> {{/actionlist}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="shipupgrades">
+                        {{#shipupgrades}}
+                        <code class="upgrades {{.}}"></code> {{/shipupgrades}} {{#hastitle}}
+                        <code class="upgrades Title"></code>{{/hastitle}}
+                        <code class="upgrades Mod"></code>
+                    </td>
+                </tr>
+            </table>
+            <table class="pilots">
+                {{#pilots}}
+                <tr data="{{pilotid}}">
+                    <td><button class="pilot" id="pilot-{{pilotid}}" pilotid="{{pilotid}}" onclick="addunit({{pilotid}},Unit.{{faction}})">{{trname}}</button></td>
+                    <td class="pts"><label for="pilot-{{pilotid}}"><span class="symbols" style="color:gold;font-size:0.5em">{{rating}}</span>{{points}}</label></td>
+                    <td class="statskill"><label for="pilot-{{pilotid}}">{{skill}}</label></td>
+                    <td>{{#haselite}}<label for="pilot-{{pilotid}}"><code class="upgrades Elite"></code></label>{{/haselite}}</td>
+                    {{#tooltip}}
+                    <td class="tooltip">{{{.}}}</td>{{/tooltip}} {{^tooltip}}
+                    <td></td>{{/tooltip}}
+                </tr>
+                {{/pilots}}
+            </table>
+        </div>
     </script>
 
     <script id="bomb" type="x-tmpl-mustache">
@@ -754,15 +778,13 @@
 
     <script id="upglist-creation" type="x-tmpl-mustache">
         <tr>
-            <td><button>+</button></td>
-            <td><span class='m-none'></span></td>
+            <td><button class='m-none'></button></td>
             <td></td>
             <td></td>
         </tr>
         {{#upglist}}
         <tr>
-            <td><button {{#isdisabled}}disabled{{/isdisabled}} num="{{num}}" data="{{data}}">+</button></td>
-            <td>{{name}}</td>
+            <td><button {{#isdisabled}}disabled{{/isdisabled}} num="{{num}}" data="{{data}}">{{name}}<span class="symbols" style="float:right;text-align:right;color:gold;font-size:0.5em">{{rating}}</span></button></td>
             <td>{{pts}}</td>
             <td>{{#attacks}}<span class='statfire'>{{attack}}</span></td>
             <td>[{{lrange}}-{{hrange}}]{{/attacks}}{{^attacks}}</td>
@@ -772,6 +794,24 @@
             <td></td>{{/tooltip}}
         </tr>
         {{/upglist}}
+    </script>
+
+    <script id="combat-display" type="text/template">
+        <div><span><b>Score:</b>{{score}}</span><button style="float:right" onclick="SQUADLIST.displaycombats()">Next</button></div>
+        <table style="font-size:smaller;width:100%">
+            <tr>
+                <td>{{{s1}}}</td>
+                <td>{{{s2}}}</td>
+            </tr>
+        </table>
+    </script>
+
+    <script id="squad-display" type="text/template">
+        <tr>
+            <td>{{cells.Faction}}</td>
+            <td>{{cells.Pts}}</td>
+            <td>{{cells.Units}}</td>
+        </tr>
     </script>
 </body>
 

@@ -821,7 +821,7 @@
         "scale": 1,
         "code": "o",
         "islarge": true,
-        "weapon_type": "Turret",
+        "weapon_type": "Turretlaser",
         "fire": 2,
         "evade": 2,
         "hull": 5,

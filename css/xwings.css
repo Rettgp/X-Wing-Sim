@@ -9,6 +9,26 @@ body {
     font-family: 'space'
 }
 
+@font-face {
+    font-family: 'symbols';
+    src: url(../css/xwings.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: 'space';
+    src: url(../css/EurostileLTStd.otf) format("truetype")
+}
+
+@font-face {
+    font-family: 'spacename';
+    src: url(../css/EurostileLTStd-Demi.otf) format("truetype")
+}
+
+@font-face {
+    font-family: 'ships';
+    src: url(../css/xwing-miniatures-ships.ttf) format("truetype")
+}
+
 @media screen and (max-width:800px) {
     .title,
     .ver {
@@ -158,6 +178,39 @@ display:none
         top: 0;
         left: 0;
         position: fixed
+    }
+}
+
+@media screen and (min-height: 800px) {
+    ul#caroussel {
+        bottom: 0;
+        font-size: 0.8em;
+        height: 25em;
+        padding-top: 11em
+    }
+    ul#caroussel li {
+        height: 22em
+    }
+    ul#caroussel .pilots tbody {
+        height: 15em
+    }
+    ul#listunits {
+        font-size: larger
+    }
+}
+
+@media screen and (max-height: 800px) {
+    ul#caroussel {
+        bottom: 0;
+        font-size: 0.8em;
+        height: 25em;
+        padding-top: 11em
+    }
+    ul#caroussel li {
+        height: 22em
+    }
+    ul#caroussel .pilots tbody {
+        height: 12em
     }
 }
 
@@ -321,19 +374,6 @@ article {
     padding: 7px;
     background: #EEE;
     margin-bottom: 5px;
-}
-
-.caroussel li:nth-child(-n+5) tr .tooltip {
-    vertical-align: top;
-    margin-top: 0em;
-    top: 0;
-}
-
-.caroussel li:nth-child(n+5) tr .tooltip {
-    right: 180px;
-    vertical-align: top;
-    margin-top: 0em;
-    top: 0
 }
 
 tr:hover .tooltip,
@@ -623,13 +663,31 @@ input:checked+.player img {
     opacity: .15
 }
 
-#creation>div {
-    height: 100%;
+#creation {
+    min-height: 100%;
+    color: #FFF;
+    overflow: hidden
+}
+
+#creation .bg::before {
+    background: radial-gradient(#000 15%, transparent 16%) 0 0, radial-gradient(#000 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px, -webkit-radial-gradient(center, circle farthest-corner, #484848, #080808);
+    background-color: #282828;
+    background-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, 100% 100%;
+    background-repeat: repeat, repeat, repeat, repeat, no-repeat
+}
+
+#creation .factions {
+    cursor: pointer;
+}
+
+.bg::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
     width: 100%;
-    background: url(playmat12.jpg);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    overflow-y: auto
+    height: 100%;
+    z-index: -2
 }
 
 #battlelog>div {
@@ -678,43 +736,61 @@ table {
     color: red
 }
 
-.close,
-.duplicate,
-.dialopen {
+.tabpanel {
     position: absolute;
+    top: 5.5em;
     right: 0;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px white;
+    padding: 1em;
+    text-align: right
+}
+
+.tabpanel span {
+    background-color: transparent;
+    padding-right: 5px;
+    cursor: pointer
+}
+
+.tabpanel span:not(:last-child) {
+    border-right: 1px solid #FFF
+}
+
+ul#listunits .duplicate {
+    position: absolute;
+    right: 0.5ex;
     text-decoration: none;
     cursor: pointer
 }
 
-.duplicate {
-    top: 5em;
-    margin-right: 1ex;
-    font-size: 1.5em;
-    color: #fff
-}
-
 .duplicate:hover,
-.dialopen:hover {
-    border: 2px;
-}
-
-.dialopen {
-    top: 3em;
-    right: 0;
-    margin-right: 0.5ex;
-    padding-left: 0.5ex;
-    border-radius: 50%;
-    border: 1px solid;
-    width: 1.5em;
-    height: 1.5em;
-    font-size: larger;
+.dialopen:hover,
+.statistics:hover,
+.moves:hover,
+.upgradelists:hover {
+    color: #000;
+    background: #FFF
 }
 
 .close {
     top: 0;
     margin-right: 0.5ex;
     color: red
+}
+
+.close:hover,
+.closemiddle:hover {
+    background: red;
+    color: #fff
+}
+
+.close,
+ul#listunits .duplicate {
+    top: 0;
+    margin-right: 0.5ex;
+    color: red;
+    cursor: pointer
 }
 
 .close:hover,
@@ -1342,12 +1418,25 @@ tttable {
 
 .Laser,
 .Turretlaser,
+.Laser180,
+.Mobilelaser,
 .Bilaser {
     color: #F33
 }
 
-.Laser::after,
-.Bilaser::after {
+.Laser::after {
+    content: "%"
+}
+
+.Bilaser:after {
+    content: "<"
+}
+
+.Laser180:after {
+    content: ">"
+}
+
+.Mobilelaser::after {
     content: "%"
 }
 
@@ -1440,11 +1529,6 @@ tttable {
     text-align: center;
     line-height: 14px;
     display: inline
-}
-
-#listunits .close {
-    font-size: 2em;
-    width: 1em;
 }
 
 .counttoken,
@@ -1540,18 +1624,33 @@ tttable {
 .System,
 .Illicit,
 .Salvaged,
-.Laser,
-.Bilaser,
-.Turretlaser,
 .CannonTorpedoMissile {
     font-family: 'symbols';
     padding: 0;
     display: inline-block;
-    font-size: 4ex;
+    font-size: 3ex;
     text-align: center;
     text-decoration: none;
     box-shadow: 1px 1px 3px #000;
+    border-radius: 50%;
     background: #333;
+    border-style: solid;
+    border-width: 0;
+    vertical-align: top
+}
+
+.Laser,
+.Bilaser,
+.Laser180,
+.Mobilelaser,
+.Turretlaser {
+    font-family: 'symbols';
+    padding: 0;
+    display: inline-block;
+    font-size: 2ex;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 1px 1px 3px #000;
     border-radius: 50%;
     border-style: solid;
     border-width: 0;
@@ -1886,13 +1985,14 @@ button.statevade,
     font-size: smaller
 }
 
-.PREBUILT::before {
-    /*background-image:url(prebuilt.png)*/
+.pre {
+    white-space: pre-wrap;
+    font-family: monospace
 }
 
 .REBEL::before {
     background-image: url(rebel.jpg);
-    border-radius: 50%;
+    border-radius: 50%
 }
 
 .TOP::before {
@@ -1913,19 +2013,19 @@ button.statevade,
     background-size: cover;
     background-repeat: no-repeat;
     width: 1em;
-    padding-left: 1.2em;
-    padding-top: .2em;
-    content: ""
+    padding-top: 1em;
+    content: "";
+    display: inline-block
 }
 
 .EMPIRE::before {
     background-image: url(empire.jpg);
-    border-radius: 50%;
+    border-radius: 50%
 }
 
 .SCUM::before {
     background-image: url(scum.jpg);
-    border-radius: 50%;
+    border-radius: 50%
 }
 
 .flame1 {
@@ -2401,71 +2501,78 @@ span.share-buttons a {
 }
 
 ul.caroussel {
-    padding: 10px 150px 0 25px;
-    /*perspective:780px;*/
+    padding: 5px 10em 0 10em;
     background-color: transparent;
-    width: calc(100% - 210px);
+    width: calc(100% - 21em);
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
     height: 22em;
     text-align: center;
-    margin: 10px;
 }
 
-.headimg {
-    width: 22em;
-    margin: 0;
+ul.caroussel .right {
+    float: right
+}
+
+ul.caroussel .upg {
+    white-space: normal
+}
+
+ul.caroussel .upg span {
+    float: right;
+    padding-right: 2px
+}
+
+ul.caroussel .upg button {
     border: 0;
-    padding: 0;
-    height: 10em;
+    background: transparent;
+    color: #fff;
+    width: 100;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1em
+}
+
+ul.caroussel .upg tr:hover {
+    background: white;
+    color: #000
+}
+
+ul.caroussel .upg tr:hover button,
+ul.caroussel .upg tr:hover .pts {
+    color: #000
 }
 
 ul.caroussel li {
-    transform: translateZ(0px) scale(1.25);
+    transform: translateZ(0px) scale(1);
     position: relative;
     padding: 0;
     color: #fff;
-    font-size: .7em;
+    font-size: smaller;
     display: inline-block;
-    height: 25em;
+    height: 19em;
     border-radius: 10px;
-    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .4), 0 0 30px rgba(0, 0, 0, 0.2);
-    width: 180px;
-    /*opacity:.5;*/
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.4), 0 0 30px rgba(0, 0, 0, 0.2);
+    width: 20em;
     z-index: 0;
     transition: all .45s;
-    margin: 20px 45px 0 0;
-    background-color: black;
+    margin: 4em 5px 0 0;
+    background: black
 }
 
-ul#caroussel li {
-    transform: rotateY(45deg);
-    margin-right: -100px
+ul.caroussel li:nth-child(-n+5) tr .tooltip {
+    left: 20em;
+    vertical-align: top;
+    margin-top: 0em;
+    top: 0
 }
 
-ul#listunits {
-    height: 30em;
-    padding: 0 0 0 2em;
-    margin: 0;
-    width: 100%
-}
-
-.inunitlist {
-    padding: 0;
-    margin: 2px
-}
-
-ul#listunits li {
-    height: 32em;
-    margin-top: 40px;
-    width: 22em;
-}
-
-ul#caroussel li.highlighted {
-    transform: rotateY(0deg);
-    opacity: 1;
-    z-index: 55!important
+ul.caroussel li:nth-child(n+5) tr .tooltip {
+    right: 20em;
+    vertical-align: top;
+    margin-top: 0em;
+    top: 0
 }
 
 ul.caroussel table {
@@ -2473,108 +2580,122 @@ ul.caroussel table {
     border-collapse: collapse
 }
 
-.upgavail,
-.upg {
-    white-space: normal
+ul.caroussel .upglist {
+    height: 16em;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%
 }
 
-.upgavail button:hover {
+ul.caroussel .upglist button {
     border: 0;
-    padding: 2px;
-    color: black;
-    background: white;
-}
-
-.upgavail button {
-    padding: 1px;
-    border-radius: 20%;
-    background: black;
+    background: transparent;
     color: white;
-    margin: 2px;
-    opacity: 0.8;
-    border: 1px solid white;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 1em
 }
 
-ul.caroussel td,
-.upglist>tr>td {
+ul.caroussel .upglist tr {
+    width: 100%
+}
+
+ul.caroussel .upglist td {
+    white-space: normal;
+    padding: 2px;
+    width: calc(100% - 2px)
+}
+
+ul.caroussel .upglist td:nth-child(1) {
+    width: 100%
+}
+
+ul.caroussel .upglist td:nth-child(2) {
+    min-width: 1em
+}
+
+ul.caroussel .upglist td:nth-child(3) {
+    min-width: 1em
+}
+
+ul.caroussel .upglist td:nth-child(4) {
+    min-width: 3em
+}
+
+ul.caroussel .upglist>tr>td {
     vertical-align: middle
 }
 
-ul.caroussel table.upgs {
+ul.caroussel .upglist>tr button:disabled {
+    color: grey
+}
+
+ul.caroussel .upglist tr:hover {
+    color: #000;
+    background: #fff
+}
+
+ul.caroussel .upglist tr:hover button {
+    color: black
+}
+
+ul.caroussel table.upgs,
+ul.caroussel div.upgs {
     padding-left: 4px;
     vertical-align: top;
     width: 100%
 }
 
-ul#caroussel .highlighted~li {
-    transform: rotateY(-45deg)
+ul.caroussel table.upgs .upg tr td:nth-child(1),
+ul.caroussel div.upgs .upg tr td:nth-child(1) {
+    width: 2em
 }
 
-ul.caroussel li:hover,
+ul.caroussel .statlist {
+    width: 100%;
+    display: none;
+    height: 17em
+}
+
+ul.caroussel .statisticsvg {
+    width: 100%;
+    height: 17em
+}
+
+ul.caroussel td {
+    vertical-align: middle
+}
+
 ul.caroussel li:first-child:hover,
 ul.caroussel li.highlighted~li:hover {
     z-index: 100
 }
 
-ul#caroussel li:hover,
-ul#caroussel li.highlighted {
-    transform: rotateY(0deg) translateZ(0px) scale(1.25)
-}
-
 ul.caroussel li:hover,
 ul.caroussel li.highlighted {
     opacity: 1;
-    z-index: 60!important;
+    z-index: 60 !important;
     background: #000
 }
 
-ul#caroussel li:hover~li {
-    transform: rotateY(-45deg) translateX(120px)
-}
-
-ul#caroussel:hover li:not(:hover) {
-    transform: rotateY(45deg) translateX(-80px)
-}
-
-ul#caroussel:hover li:hover~li {
-    transform: rotateY(-45deg) translateX(120px)
-}
-
 ul.caroussel .shipimg,
-ul.caroussel .shipdial,
-ul.listunits .shipdial {
+ul.caroussel .shipdial {
     opacity: 1;
     background-size: 30px 30px;
     background-repeat: no-repeat;
     background-position: center;
     width: 35px;
     height: 35px;
+    max-width: 35px;
+    max-height: 35px;
     margin: 2px;
     cursor: pointer
 }
 
-ul.caroussel button {
-    cursor: pointer;
-    opacity: 1
-}
-
-.shipdial.tooltip {
-    background: #000;
-    font-size: 2em;
-}
-
-.shipdial {
-    color: #fff;
-    width: 30px;
-    font-size: 6px;
-    empty-cells: hide;
-    padding: 3px;
-    display: none;
-}
-
-.shipdial td {
-    width: 4px;
-    height: 4px
+ul.caroussel .shipdial {
+    font-size: 6px
 }
 
 ul.caroussel .shipimg {
@@ -2585,24 +2706,281 @@ ul.caroussel .shipimg {
     padding: 5px 5px 5px 1px
 }
 
+ul.caroussel .largeshipimg {
+    background-repeat: no-repeat;
+    transform: rotate(90deg);
+    background-size: 80px 80px;
+    width: 80px;
+    height: 80px;
+}
+
+ul.caroussel .pilots {
+    line-height: 1em;
+    cursor: pointer
+}
+
+ul.caroussel .pilots button {
+    cursor: pointer;
+    text-align: left;
+    background: transparent;
+    width: 100%;
+    color: #fff;
+    font-variant: small-caps;
+    font-family: 'spacename'
+}
+
+ul.caroussel .pilots button:disabled {
+    color: grey
+}
+
+ul.caroussel button:hover {
+    color: #000;
+    background: white
+}
+
+ul.caroussel button:hover:disabled {
+    color: grey
+}
+
+ul#caroussel {
+    direction: ltr
+}
+
+ul#caroussel li {
+    transform: rotateY(45deg);
+    margin-right: -14em;
+    font-size: larger;
+    transition: transform 0.1s ease-in-out;
+}
+
+ul#caroussel li.highlighted {
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 55 !important
+}
+
+ul#caroussel .highlighted~li {
+    transform: rotateY(-45deg)
+}
+
+ul#caroussel li:hover,
+ul#caroussel li.highlighted {
+    transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1.25)
+}
+
+ul#caroussel li:hover~li {
+    transform: rotateY(-45deg) translateX(120px)
+}
+
+ul#caroussel #shipdetails {
+    display: none;
+}
+
+ul#caroussel li:hover #shipdetails {
+    display: block;
+}
+
+ul#caroussel li:hover #largeship {
+    display: none;
+}
+
+ul#caroussel:hover li:not(:hover) {
+    transform: rotateY(45deg) translateX(0px)
+}
+
+ul#caroussel:hover li:hover~li {
+    transform: rotateY(-45deg) translateX(120px)
+}
+
 ul.caroussel:not(:hover) li.highlighted {
     opacity: 1
+}
+
+ul#listunits {
+    height: 25em;
+    padding: 0 0 0 2em;
+    margin: 0;
+    width: calc(100% - 2em);
+    opacity: 1
+}
+
+ul#listunits .upts {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    opacity: 0.8;
+    z-index: -1;
+    color: #fff;
+    font-weight: bold
+}
+
+ul#listunits .statpanel,
+ul#listunits .iconpanel {
+    margin: 2px;
+    float: left;
+    width: 2.5em;
+    font-size: 0.85em
+}
+
+ul#listunits .iconpanel {
+    float: right
+}
+
+ul#listunits .shipname {
+    color: #fff;
+    font-size: smaller;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+ul#listunits .pilotname {
+    text-shadow: 1px 1px #000, 1px -1px #000, -1px 1px #000, -1px -1px #000;
+    font-family: "spacename";
+    font-variant: small-caps;
+    text-align: center;
+    padding: 2px;
+    font-size: 1em;
+    color: #FFF;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+ul#listunits .headimg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20em;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    z-index: -1
+}
+
+ul#listunits .close,
+ul#listunits .duplicate {
+    font-size: 2em;
+    top: 0.3em;
+    text-shadow: 1px 1px #000, 1px -1px #000, -1px 1px #000, -1px -1px #000;
+}
+
+ul#listunits .removeupg {
+    color: red;
+    text-shadow: .5px .5px #fff, .5px -.5px #fff, -.5px .5px #fff, .5px .5px #fff;
+    font-size: 18pt;
+}
+
+ul#listunits .duplicate {
+    font-size: 1.2em;
+    top: 2.5em;
+    color: #fff;
+}
+
+ul#listunits li {
+    height: 26em;
+    margin-top: 2em
+}
+
+ul#listunits .shipdial {
+    / left: 26em;
+    font-size: 1em;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 35px;
+    height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+    margin: 2px;
+    cursor: pointer
+}
+
+ul#listunits .shipdial table {
+    table-layout: fixed
+}
+
+.inunitlist {
+    padding: 0;
+    margin: 2px
+}
+
+.upgavail {
+    white-space: normal
+}
+
+.upgavail button:hover {
+    border: 0;
+    padding: 2px;
+    color: black;
+    background: white
+}
+
+.upgavail button {
+    padding: 1px;
+    border-radius: 15%;
+    background: black;
+    color: white;
+    margin: 2px;
+    border: 1px solid white;
+    vertical-align: middle
+}
+
+.upgavail button .label {
+    border-radius: 30%;
+    background: red;
+    color: white;
+    font-size: 0.5em;
+    margin: 1px;
+    padding: 1px;
+    font-family: 'space'
+}
+
+.upgavail code.upgrades {
+    cursor: pointer
+}
+
+.shipdial.tooltip {
+    background: #000
+}
+
+.shipdial {
+    color: #fff;
+    empty-cells: hide;
+    padding: 3px
 }
 
 .pilots {
     width: 100%
 }
 
-.pilots tr:hover,
-.upglist tr:hover {
+.pilots tr:hover {
     color: #000;
     background: #fff
 }
 
-.pilots td,
-.upglist td {
+.pilots tr:hover td button,
+.pilots tr:hover td.pts {
+    color: black
+}
+
+.pilots tr {
+    color: #FFF;
+    background: transparent
+}
+
+.pilots td {
     white-space: normal;
-    padding: 2px
+    padding: 2px;
+    width: 100%
+}
+
+.pilots td.pts {
+    color: #fff;
+    font-weight: bold
 }
 
 .pilots tbody {
@@ -2610,24 +2988,35 @@ ul.caroussel:not(:hover) li.highlighted {
     overflow-x: hidden;
     overflow-y: auto;
     width: 100%;
-    height: 16em
+    height: 11em
 }
 
-.upglist td {
-    width: calc(100% - 5px)
+.pilots button {
+    font-size: 1em
 }
 
-.upglist {
-    height: 20em;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-    width: 100%
+.pilots button:disabled {
+    color: grey
 }
 
-.upg span {
-    float: right;
-    padding-right: 2px;
+.createbutton,
+.pilots button {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    text-align: left
+}
+
+.shipdial {
+    display: none
+}
+
+.shipname {
+    font-variant: small-caps;
+    font-weight: 700;
+    text-align: center;
+    padding: 2px;
+    white-space: normal
 }
 
 .shipname {

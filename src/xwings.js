@@ -1202,6 +1202,16 @@ function switchdialimg(b) {
         $("#caroussel .shipimg").css("display", "table-cell");
     }
 }
+
+function SwitchToCardDetails(details) {
+    if (details) {
+        $("#caroussel .shipimg").css("display", "none");
+        $("#caroussel .shipdial").css("display", "table-cell");
+    } else {
+        $("#caroussel .shipdial").css("display", "none");
+        $("#caroussel .shipimg").css("display", "table-cell");
+    }
+}
 var mySpreadsheets = [
 /*"https://docs.google.com/spreadsheets/d/1n35IFydakSJf9N9b9byLog2MooaWXk_w8-GQdipGe8I/edit#gid=0",
 "https://docs.google.com/spreadsheets/d/1Jzigt2slBhygjcylCsy4UywpsEJEjejvtCfixNoa_z4/edit#gid=0",
@@ -1409,6 +1419,7 @@ function displayfactionunits(noreset) {
                 shield: repeat('u', u.shield),
                 diallist: dial2JSON(u.dial),
                 shipname: u.trname,
+                primary: u.weapon_type,
                 actionlist: function () {
                     var al = [];
                     for (j = 0; j < u.actionList.length; j++) al[j] = A[u.actionList[j]].key;
@@ -1419,6 +1430,15 @@ function displayfactionunits(noreset) {
                 pilots: q
             });
             $("#caroussel").append("<li>" + rendered + "</li>");
+            /*$('#caroussel').on('mouseover', '> li', function (e) {
+                if (!$(this).hasId('.current)')) {
+                    $('.current', '#menu').removeClass('active');
+                }
+            }).on('mouseout', '> li', function (e) {
+                if (!$(this).hasClass('.current)')) {
+                    $('.current', '#menu').addClass('active');
+                }
+            });*/
         }
     }
 }
@@ -1561,6 +1581,129 @@ function addunit(n, u) {
             if (UPGRADES[d].unique != true && u.upgnocopy != d) addupgrade(self, d, num);
         });
     });
+    $("#unit" + u.id + " .dialopen").click(function () {
+        var data = $(this).attr("data");
+        $("#unit" + data + " .upg").hide();
+        $("#unit" + data + " .upglist").hide();
+        $("#unit" + data + " .upgavail").hide();
+        $("#unit" + data + " .statlist").hide();
+        $("#unit" + data + " .shipdial").show();
+        $("#unit" + data + " .movelist").hide();
+
+        var u = generics["u" + data];
+    });
+    $("#unit" + u.id + " .upgradelists").click(function () {
+        var data = $(this).attr("data");
+        $("#unit" + data + " .upg").show();
+        $("#unit" + data + " .upglist").empty();
+        $("#unit" + data + " .upglist").show();
+        $("#unit" + data + " .upgavail").show();
+        $("#unit" + data + " .statlist").hide();
+        $("#unit" + data + " .shipdial").hide();
+        $("#unit" + data + " .movelist").hide();
+        var u = generics["u" + data];
+    });
+
+    $("#unit" + u.id + " .moves").click(function () {
+        var data = $(this).attr("data");
+        var u = generics["u" + data];
+        $("#unit" + data + " .upg").hide();
+        $("#unit" + data + " .upglist").hide();
+        $("#unit" + data + " .upgavail").hide();
+        $("#unit" + data + " .statlist").hide();
+        $("#unit" + data + " .shipdial").hide();
+        $("#unit" + data + " .movelist").show();
+
+        var s = Snap("#unit" + data + " .movesvg");
+        var sl = $("#unit" + data + " .statbutton");
+        s.clear();
+        var w = $(".movesvg").width();
+        targetunit = new Unit(0, 13);
+        for (var i in metaUnit.prototype) targetunit[i] = metaUnit.prototype[i];
+        u.moves = [MT(w / 2, w / 2)];
+        u.doactivation();
+        u.s = s;
+        setTimeout(function () {
+            for (i in u.moves) {
+                var p = s.path(u.getOutlineString(u.moves[i]).s).attr({
+                    "stroke-width": 5,
+                    stroke: "#0a0",
+                    opacity: 0.5,
+                    fill: "rgba(0,0,0,0)",
+                    pointerEvents: "none"
+                });
+            }
+            s.path(u.getOutlineString(MT(w / 2, w / 2)).s).attr({
+                "stroke-width": 5,
+                stroke: "#a00",
+                opacity: 1,
+                fill: "rgba(0,0,0,0)",
+                pointerEvents: "none"
+            });
+        });
+    });
+    $("#unit" + u.id + " .statistics").click(function () {
+        var data = $(this).attr("data");
+        var u = generics["u" + data];
+        $("#unit" + data + " .upg").hide();
+        $("#unit" + data + " .upglist").hide();
+        $("#unit" + data + " .upgavail").hide();
+        $("#unit" + data + " .statlist").show();
+        $("#unit" + data + " .shipdial").hide();
+        $("#unit" + data + " .movelist").hide();
+
+        var s = Snap("#unit" + data + " .statisticsvg");
+        var sl = $("#unit" + data + " .statbutton");
+        s.clear();
+        var w = $(".statisticsvg").width();
+        targetunit = new Unit(0, 13);
+        for (var i in metaUnit.prototype) targetunit[i] = metaUnit.prototype[i];
+        u.moves = [MT(w / 2, w / 2)];
+        u.doactivation();
+        u.s = s;
+        var t = s.text(0, 0, "Computing...").attr({
+            "font-size": 50,
+            stroke: WHITE
+        });
+        setTimeout(function () {
+            u.showattack(u.weapons, s);
+            t.attr({
+                display: "none"
+            });
+            s.path(u.getOutlineString(MT(w / 2, w / 2)).s).attr({
+                "stroke-width": 5,
+                stroke: "#0a0",
+                opacity: 0.5,
+                fill: "rgba(0,0,0,0)",
+                pointerEvents: "none"
+            });
+            for (i = 1; i <= 5; i++)
+                s.path(u.getRangeString(i, MT(w / 2, w / 2))).attr({
+                    "stroke-width": 5,
+                    stroke: "#0a0",
+                    opacity: 0.5,
+                    fill: "rgba(0,0,0,0)",
+                    pointerEvents: "none",
+                    "stroke-dasharray": "5,5"
+                });
+            var g = s.gradient("l(0,0,0,1)hsl(0,80,50)-hsl(60,100,50)-hsl(120,100,25)");
+            s.rect(-400, -500, 30, 800).attr({
+                fill: g
+            });
+            s.text(-350, -450, "100%").attr({
+                "font-size": 50,
+                stroke: WHITE
+            });
+            s.text(-350, -75, "50%").attr({
+                "font-size": 50,
+                stroke: WHITE
+            });
+            s.text(-350, 300, "0%").attr({
+                "font-size": 50,
+                stroke: WHITE
+            });
+        }, 30);
+    });
     currentteam.updatepoints();
     addupgradeaddhandler(u);
     return u;
@@ -1582,7 +1725,7 @@ function addupgrade(self, data, num, noremove) {
     var tttext = formatstring(getupgtxttranslation(org.name, org.type));
     if (tttext != "") tt = "<div class='tooltip'>" + tttext + (org.done == true ? "" : "<div><strong class='m-notimplemented'></strong></div></div>");
     //log("adding to unit "+self.id);
-    $("#unit" + self.id + " .upg").append("<tr data=" + data + " num=" + num + "><td><code class='upgrades " + org.type + "'></code></td><td>" + text + tt + "</td><td class='pts'>" + pts + "<button>-</button></td></tr>");
+    $("#unit" + self.id + " .upg").append("<tr data=" + data + " num=" + num + "><td><code class='upgrades " + org.type + "'></code></td><td>" + text + tt + "</td><td class='pts'>" + pts + "<button class='removeupg'>-</button></td></tr>");
     //alert("is shown ?");
     self.upg[num] = data;
     Upgrade.prototype.install.call(org, self);
@@ -1594,6 +1737,12 @@ function addupgrade(self, data, num, noremove) {
     self.showstats();
     currentteam.updatepoints();
     if (typeof noremove == "undefined") {
+        $("#unit" + self.id + " .upg tr[num=" + num + "] button").click(function (e) {
+            var num = e.currentTarget.parentElement.parentElement.getAttribute("num");
+            var data = e.currentTarget.parentElement.parentElement.getAttribute("data");
+            $("#unit" + self.id + " .upglist").empty();
+            removeupgrade(self, num, data);
+        }.bind(self));
         $("#unit" + self.id + " .upg tr[num=" + num + "] button").click(function (e) {
             var num = e.currentTarget.parentElement.parentElement.getAttribute("num");
             var data = e.currentTarget.parentElement.parentElement.getAttribute("data");
