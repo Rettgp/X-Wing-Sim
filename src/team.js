@@ -168,8 +168,6 @@ Team.prototype = {
         var score1 = $("#listunits li").each(function () {
             var s = 0;
             $(this).find(".pts").each(function () {
-                console.log($(this).text());
-                console.log(parseInt($(this).text()));
                 s += parseInt($(this).text());
             });
             $(this).find(".upts").html(s);

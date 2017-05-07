@@ -1430,15 +1430,6 @@ function displayfactionunits(noreset) {
                 pilots: q
             });
             $("#caroussel").append("<li>" + rendered + "</li>");
-            /*$('#caroussel').on('mouseover', '> li', function (e) {
-                if (!$(this).hasId('.current)')) {
-                    $('.current', '#menu').removeClass('active');
-                }
-            }).on('mouseout', '> li', function (e) {
-                if (!$(this).hasClass('.current)')) {
-                    $('.current', '#menu').addClass('active');
-                }
-            });*/
         }
     }
 }
