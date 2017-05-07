@@ -203,11 +203,11 @@ display:none
     ul#caroussel {
         bottom: 0;
         font-size: 0.8em;
-        height: 25em;
-        padding-top: 11em
+        height: 20em;
+        padding-top: 9em;
     }
     ul#caroussel li {
-        height: 22em
+        height: 20em
     }
     ul#caroussel .pilots tbody {
         height: 12em
