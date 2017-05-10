@@ -1963,6 +1963,9 @@ function nextphase() {
             });
             $(".imagebg").hide();
             endsetupphase();
+            for (i in squadron) {
+                squadron[i].endsetupphase();
+            }
             /*
             if (REPLAY.length>0) {
                 replayid=0;
@@ -2230,6 +2233,10 @@ function setphase(cannotreplay) {
                 else if (activeunit.shield < activeunit.ship.shield) activeunit.addshield(1);
                 activeunit.show();
             });
+
+            for (i in squadron) {
+                squadron[i].beginsetupphase();
+            }
 
             if (SETUPS.asteroids > 0) {
                 loadrock(s, ROCKDATA);
