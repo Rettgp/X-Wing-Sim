@@ -6017,7 +6017,6 @@ var UPGRADES = [
                 var n=0;
                 for (var i in squadron) {
                     if (squadron[i].team==this.team) n++;
-                    this.log("Alive: [%1]", n);
                 } 
                 if (n==1) self.desactivate();
             };
