@@ -6017,6 +6017,7 @@ var UPGRADES = [
                 var n=0;
                 for (var i in squadron) {
                     if (squadron[i].team==this.team) n++;
+                    this.log("Alive: [%1]", n);
                 } 
                 if (n==1) self.desactivate();
             };
@@ -6032,8 +6033,6 @@ var UPGRADES = [
                 bb=b&&!(!hasattacked&&(this.getskill()>t.getskill())); 
                 } else bb=b;
 
-                bb = bb && TEAMS[this.team].units.length != 1;
-                this.log("Still alive: [%1]", TEAMS[this.team].units.length);
                 return bb;
             });
         }
