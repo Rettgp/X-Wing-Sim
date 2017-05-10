@@ -3730,6 +3730,11 @@ Unit.prototype = {
         $(".fireline").remove();
     },
     endphase: function () {},
+    beginsetupphase: function() {
+        return this.newlock();
+    },
+    endsetupphase: function() {
+    },
     beginplanningphase: function () {
         this.actionsdone = [];
         return this.newlock();

@@ -6010,15 +6010,28 @@ var UPGRADES = [
         faction: REBEL,
         points: 1,
         done: true,
-        init: function (sh) {
-            var self = this;
-            var hasattacked = false;
-            sh.wrap_after("declareattack", function (t, b) {
-                if (b) hasattacked = true;
+        init: function(sh) {
+            var self=this;
+            var hasattacked=false;
+            var conddesactivate=function() {
+                var n=0;
+                for (var i in squadron) {
+                    if (squadron[i].team==this.team) n++;
+                } 
+                if (n==1) self.desactivate();
+            };
+            sh.wrap_after("declareattack",this,function(w,t,b) {
+                if (b) hasattacked=true;
                 return b;
             });
-            sh.wrap_after("isenemy", this, function (t, b) {
-                return b || (!hasattacked && t.getskill() < this.getskill() && self.isactive);
+            sh.wrap_after("endsetupphase",this,conddesactivate);
+            Unit.prototype.wrap_before("dies",this,conddesactivate);
+            sh.wrap_after("isenemy",this,function(t,b) {
+                var bb;
+                if (self.isactive) {
+                bb=b&&!(!hasattacked&&(this.getskill()>t.getskill())); 
+                } else bb=b;
+                return bb;
             });
         }
     },
