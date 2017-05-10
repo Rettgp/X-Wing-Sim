@@ -2608,6 +2608,7 @@ Unit.prototype = {
         var i;
         for (i in squadron) {
             if (this.isenemy(squadron[i]) &&
+                squadron[i].canbetargeted && 
                 this.getrange(squadron[i]) <= n) {
                 p.push(squadron[i]);
             }
@@ -2651,7 +2652,7 @@ Unit.prototype = {
         return this.selectnearbyunits(n, function (s, t) {
             var b = true;
             if (typeof f == "function") b = f(s, t);
-            return s.isenemy(t) && b;
+            return s.isenemy(t) && t.canbetargeted() && b;
         });
     },
     isally: function (t) {
@@ -2659,6 +2660,10 @@ Unit.prototype = {
     },
     isenemy: function (t) {
         return t.team != this.team;
+    },
+    canbetargeted: function ()
+    {
+        return true;
     },
     resolvetargetnoaction: function (n, noaction) {
         var p = this.gettargetableunits(3);
