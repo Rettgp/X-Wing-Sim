@@ -2658,7 +2658,7 @@ Unit.prototype = {
         return t.team == this.team;
     },
     isenemy: function (t) {
-        return t.team != this.team && !t.isenemy(this);
+        return t.team != this.team;
     },
     resolvetargetnoaction: function (n, noaction) {
         var p = this.gettargetableunits(3);
