@@ -6031,6 +6031,9 @@ var UPGRADES = [
                 if (self.isactive) {
                 bb=b&&!(!hasattacked&&(this.getskill()>t.getskill())); 
                 } else bb=b;
+
+                bb = bb && TEAMS[this.team].units.length != 1;
+                this.log("Still alive: [%1]", TEAMS[this.team].units.length);
                 return bb;
             });
         }
