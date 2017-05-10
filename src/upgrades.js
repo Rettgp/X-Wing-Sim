@@ -500,7 +500,7 @@ Weapon.prototype = {
         if (typeof enemylist == "undefined") enemylist = squadron;
         for (var i in enemylist) {
             var sh = enemylist[i];
-            if (this.unit.isenemy(sh) && this.getrange(sh) > 0) r.push(sh);
+            if (this.unit.isenemy(sh) && sh.canbetargeted(this.unit) && this.getrange(sh) > 0) r.push(sh);
         }
         return r;
     },

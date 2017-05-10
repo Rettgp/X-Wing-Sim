@@ -6010,27 +6010,29 @@ var UPGRADES = [
         faction: REBEL,
         points: 1,
         done: true,
-        init: function(sh) {
-            var self=this;
-            var hasattacked=false;
-            var conddesactivate=function() {
-                var n=0;
+        init: function (sh) {
+            var self = this;
+            var hasattacked = false;
+            var conddesactivate = function () {
+                var n = 0;
                 for (var i in squadron) {
-                    if (squadron[i].team==this.team) n++;
-                } 
-                if (n==1) self.desactivate();
+                    if (squadron[i].team == this.team) n++;
+                }
+                if (n == 1) self.desactivate();
             };
-            sh.wrap_after("declareattack",this,function(w,t,b) {
-                if (b) hasattacked=true;
+            sh.wrap_after("declareattack", this, function (w, t, b) {
+                if (b) hasattacked = true;
                 return b;
             });
-            sh.wrap_after("endsetupphase",this,conddesactivate);
-            Unit.prototype.wrap_before("dies",this,conddesactivate);
-            sh.wrap_after("isenemy",this,function(t,b) {
+            sh.wrap_after("endsetupphase", this, conddesactivate);
+            Unit.prototype.wrap_before("dies", this, conddesactivate);
+            sh.wrap_after("canbetargeted", this, function (attacker, b) {
                 var bb;
+                this.log("%0 being attacked by %1", this.name, attacker.name)
                 if (self.isactive) {
-                bb=b&&!(!hasattacked&&(this.getskill()>t.getskill())); 
-                } else bb=b;
+                    bb = b && !(!hasattacked && (this.getskill() > attacker.getskill()));
+                    this.log("Can attack? %0", bb)
+                } else bb = b;
 
                 return bb;
             });

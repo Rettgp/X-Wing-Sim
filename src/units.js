@@ -2608,7 +2608,7 @@ Unit.prototype = {
         var i;
         for (i in squadron) {
             if (this.isenemy(squadron[i]) &&
-                squadron[i].canbetargeted && 
+                squadron[i].canbetargeted(this) &&
                 this.getrange(squadron[i]) <= n) {
                 p.push(squadron[i]);
             }
@@ -2652,7 +2652,7 @@ Unit.prototype = {
         return this.selectnearbyunits(n, function (s, t) {
             var b = true;
             if (typeof f == "function") b = f(s, t);
-            return s.isenemy(t) && t.canbetargeted() && b;
+            return s.isenemy(t) && t.canbetargeted(s) && b;
         });
     },
     isally: function (t) {
@@ -2661,8 +2661,7 @@ Unit.prototype = {
     isenemy: function (t) {
         return t.team != this.team;
     },
-    canbetargeted: function ()
-    {
+    canbetargeted: function (attacker) {
         return true;
     },
     resolvetargetnoaction: function (n, noaction) {
@@ -3735,11 +3734,10 @@ Unit.prototype = {
         $(".fireline").remove();
     },
     endphase: function () {},
-    beginsetupphase: function() {
+    beginsetupphase: function () {
         return this.newlock();
     },
-    endsetupphase: function() {
-    },
+    endsetupphase: function () {},
     beginplanningphase: function () {
         this.actionsdone = [];
         return this.newlock();
