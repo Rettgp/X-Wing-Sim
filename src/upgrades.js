@@ -584,7 +584,7 @@ Upgrade.prototype = {
         } else {
             this.isactive = false;
             this.unit.movelog("D-" + this.unit.upgrades.indexOf(this));
-            this.unit.show();
+            this.unit.updatehtml();
         }
     },
     show: function () {},

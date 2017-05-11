@@ -6016,22 +6016,24 @@ var UPGRADES = [
             var conddesactivate = function () {
                 var n = 0;
                 for (var i in squadron) {
-                    if (squadron[i].team == this.team) n++;
+                    if (squadron[i].isally(this) && !squadron[i].dead) n++;
                 }
-                if (n == 1) self.desactivate();
+                if (n == 1) {
+                    self.desactivate();
+                }
             };
             sh.wrap_after("declareattack", this, function (w, t, b) {
                 if (b) hasattacked = true;
+                self.desactivate();
                 return b;
             });
             sh.wrap_after("endsetupphase", this, conddesactivate);
+            sh.wrap_after("warndeath", this, conddesactivate);
             Unit.prototype.wrap_before("dies", this, conddesactivate);
             sh.wrap_after("canbetargeted", this, function (attacker, b) {
                 var bb;
-                this.log("%0 being attacked by %1", this.name, attacker.name)
                 if (self.isactive) {
                     bb = b && !(!hasattacked && (this.getskill() > attacker.getskill()));
-                    this.log("Can attack? %0", bb)
                 } else bb = b;
 
                 return bb;

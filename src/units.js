@@ -1929,7 +1929,7 @@ Unit.prototype = {
         for (i in squadron) {
             if (squadron[i] == this) {
                 delete squadron[i];
-            } else if (squadron[i].team == this.team) {
+            } else if (squadron[i].isally(this)) {
                 squadron[i].warndeath(this.hull, this.shield, this);
             }
         }
@@ -4590,5 +4590,9 @@ Unit.prototype = {
             }
         };
         return range;
+    },
+
+    updatehtml: function () {
+        $("#" + this.id).html("" + this);
     }
 };
