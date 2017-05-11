@@ -137,6 +137,11 @@ function changeimage(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+$('.fTab').on('click', function () {
+    $(this).toggleClass('active');
+});
+
 //?GwdgXAHAjANAnAVngBgNxQEwygFgmECbBJONTGYJKAZmrwKRuBXTxho9kxrAxYhYyqAGQ0QlfBBCcSSALTDcRGtwycZkHLAwT5UCGhBwO2Chiw5kkKEkEnFaERgg4OJGPolocbjLEVsNBpkSk8DP1R5CA1wlxhyDygJBAkoNHl+GH4HWjsRADMAQwAbAGcAU0LSypEAYRKisrKASwBjESA#
 function center() {
     var bbox = activeunit.g.getBBox();
@@ -2949,20 +2954,6 @@ $(document).ready(function () {
         Mustache.parse(TEMPLATES["usabletokens"]);
         TEMPLATES["selectweapon"] = $("#selectweapon").html();
         Mustache.parse(TEMPLATES["selectweapon"]);
-
-        $('body').on('mousedown', 'footer', function () {
-            $(this).addClass('draggable').parents().on('mousemove', function (e) {
-                $('.draggable').offset({
-                    top: e.pageY - $('.draggable').outerHeight() / 2,
-                    left: e.pageX - $('.draggable').outerWidth() / 2
-                }).on('mouseup', function () {
-                    $(this).removeClass('draggable');
-                });
-            });
-            if (typeof e.preventDefault == "function") e.preventDefault();
-        }).on("mouseup", function () {
-            $(".draggable").removeClass("draggable");
-        });
 
         mc.zoom = 1;
         mc.on("pinch", function (ev) {

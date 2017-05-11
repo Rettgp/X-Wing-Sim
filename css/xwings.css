@@ -2061,16 +2061,38 @@ button.statevade,
     letter-spacing: 0
 }
 
+.fTab {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    bottom: 0;
+    padding: 0.25em;
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid grey;
+    transition: bottom 0.5s;
+}
+
+.fTab.active {
+    bottom: 10em;
+}
+
+.fTab.active+footer {
+    max-height: 10em;
+}
+
 footer {
     position: fixed;
+    max-height: 0em;
     background: rgba(0, 0, 0, 0.5);
     bottom: 0;
-    left: 30%;
-    width: 40%;
+    left: 25%;
+    width: 50%;
     z-index: 1;
     color: #d3d3d3;
-    cursor: move;
-    height: 6em
+    height: 10em;
+    transition: max-height 0.5s;
 }
 
 footer .title {
@@ -2092,7 +2114,7 @@ footer .title {
     overflow-y: scroll;
     font-size: smaller;
     color: #d3d3d3;
-    height: 5em
+    height: 9.5
 }
 
 footer input {

@@ -478,8 +478,8 @@
     <iframe style="position:absolute;left:0;bottom:0;display:none;" id="submission" src="form.html">
       </iframe>
 
-    <footer draggable="true">
-        <a href="#" onclick="$('#consolecb').removeAttr('Checked'); $('footer').hide()" title="Close" class="close">&#xd7;</a>
+    <span class="fTab">Log</span>
+    <footer>
         <input type="text" id="addcomment" placeholder="Add comment for active unit" onchange="activeunit.movelog('L-%%'+encodeURIComponent($(this).val())+'%%');$(this).val('');">
         <div class="log" id="log"></div>
     </footer>
