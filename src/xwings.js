@@ -60,6 +60,7 @@ var UNIQUE = [];
 var stype = "";
 var REPLAY = "";
 var PERMALINK = "";
+var LAST_PAN_DELTA = [0, 0];
 /*
 
 
@@ -2150,16 +2151,6 @@ function setphase(cannotreplay) {
                 zoom(e.clientX - $("#team1").width(), e.clientY - $("nav").height(), z);
             });
 
-            $("#svgout").mousedown(function (event) {
-                dragstart(event);
-            });
-            $("#svgout").mousemove(function (e) {
-                dragmove(e);
-            });
-            $("#svgout").mouseup(function (e) {
-                dragstop(e);
-            });
-
             jwerty.key("escape", nextphase);
 
             /* By-passes */
@@ -2474,42 +2465,7 @@ var viewport_zoom = function (z) {
     VIEWPORT.transform(VIEWPORT.m);
     activeunit.show();
 }
-var dragmove = function (event) {
-    if (activeunit.dragged == true) return;
-    var e = event; // old IE support
-    var x = e.offsetX,
-        y = e.offsetY;
-    if (VIEWPORT.dragged) {
-        var w = $("#svgout").width();
-        var h = $("#svgout").height();
-        var max = Math.max(900. / w, 900. / h);
-        var ddx = (e.offsetX - VIEWPORT.x0) * max;
-        var ddy = (e.offsetY - VIEWPORT.y0) * max;
-        VIEWPORT.dragMatrix = MT(ddx, ddy).add(VIEWPORT.m);
-        VIEWPORT.dragged = true;
-        $(".phasepanel").hide();
-        VIEWPORT.transform(VIEWPORT.dragMatrix);
-    }
-}
-var dragstart = function (event) {
-    var e = event; // old IE support
-    VIEWPORT.dragged = true;
-    if (e.originalEvent.target.id == "svgout") {
-        VIEWPORT.x0 = e.offsetX;
-        VIEWPORT.y0 = e.offsetY;
-        VIEWPORT.dragged = true;
-        VIEWPORT.dragMatrix = VIEWPORT.m;
-    } else VIEWPORT.dragged = false;
-}
-var dragstop = function (e) {
-    if (VIEWPORT.dragged) {
-        VIEWPORT.m = VIEWPORT.dragMatrix;
-        VIEWPORT.m.clone();
-        VIEWPORT.transform(VIEWPORT.m);
-        activeunit.show();
-    }
-    VIEWPORT.dragged = false;
-}
+
 var scrolloverflow = function (event) {
     var id = event.target.id;
     $("#" + id + " .outoverflow").each(function (index) {
@@ -2935,12 +2891,28 @@ $(document).ready(function () {
         mc.get('pan').set({
             direction: Hammer.DIRECTION_ALL
         });
+
         mc.on("panleft panright panup pandown", function (ev) {
             if (ev.target.id != "svgout") {
                 return;
             }
             if (activeunit.dragged == true) return;
-            viewport_translate(-ev.velocityX * 50, -ev.velocityY * 50);
+
+            $("#svgout").css("cursor", "-webkit-grabbing");
+
+            viewport_translate(ev.deltaX - LAST_PAN_DELTA[0], ev.deltaY - LAST_PAN_DELTA[1]);
+            LAST_PAN_DELTA = [
+                ev.deltaX, ev.deltaY
+            ];
+        });
+
+        mc.on("panend", function (ev) {
+            if (ev.target.id != "svgout") {
+                return;
+            }
+            if (activeunit.dragged == true) return;
+            LAST_PAN_DELTA = [0, 0];
+            $("#svgout").css("cursor", "-webkit-grab");
         });
 
 
