@@ -2782,26 +2782,20 @@ ul#caroussel li {
     transform: rotateY(45deg);
     margin-right: -14em;
     font-size: larger;
-    transition: transform 0.1s ease-in-out;
-}
-
-ul#caroussel li.highlighted {
-    transform: rotateY(0deg);
-    opacity: 1;
-    z-index: 55 !important
-}
-
-ul#caroussel .highlighted~li {
-    transform: rotateY(-45deg)
+    transition: transform 0.2s ease-in-out;
 }
 
 ul#caroussel li:hover,
 ul#caroussel li.highlighted {
-    transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1.25)
+    transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1.25);
 }
 
 ul#caroussel li:hover~li {
-    transform: rotateY(-45deg) translateX(120px)
+    transform: translateX(200px);
+}
+
+ul.caroussel:not(:hover) li.highlighted {
+    opacity: 1
 }
 
 ul#caroussel #shipdetails {
@@ -2814,18 +2808,6 @@ ul#caroussel li:hover #shipdetails {
 
 ul#caroussel li:hover #largeship {
     display: none;
-}
-
-ul#caroussel:hover li:not(:hover) {
-    transform: rotateY(45deg) translateX(0px)
-}
-
-ul#caroussel:hover li:hover~li {
-    transform: rotateY(-45deg) translateX(120px)
-}
-
-ul.caroussel:not(:hover) li.highlighted {
-    opacity: 1
 }
 
 ul#listunits {
