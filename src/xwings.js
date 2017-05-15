@@ -2030,6 +2030,7 @@ function setphase(cannotreplay) {
             $(".buttonbar .share-buttons").hide();
             $(".h2 .share-buttons").show();
             $(".permalink").hide();
+            $(".ftab").hide();
             $(".activeunit").prop("disabled", true);
             $("#rightpanel").hide();
             $("#leftpanel").hide();
@@ -2242,6 +2243,7 @@ function setphase(cannotreplay) {
             $(".unit").css("cursor", "move");
             $("#positiondial").show();
             $(".permalink").show();
+            $(".ftab").show();
             $("#savebtn").hide();
             if (cannotreplay != true) startreplayall();
             break;
