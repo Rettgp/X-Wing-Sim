@@ -199,6 +199,24 @@ display:none
     }
 }
 
+@media screen and (min-height: 400px) {
+    ul#caroussel {
+        bottom: 0;
+        font-size: 0.5em;
+        height: 25em;
+        padding-top: 11em
+    }
+    ul#caroussel li {
+        height: 20em
+    }
+    ul#caroussel .pilots tbody {
+        height: 15em
+    }
+    ul#listunits {
+        font-size: large
+    }
+}
+
 @media screen and (max-height: 800px) {
     ul#caroussel {
         bottom: 0;
