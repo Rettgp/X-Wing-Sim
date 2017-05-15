@@ -213,7 +213,10 @@ display:none
         height: 12em
     }
     ul#caroussel li.highlighted {
-        transform: rotateY(0deg) translateZ(30em) translateY(-6em) scale(1);
+        transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1);
+    }
+    ul#caroussel li:hover~li {
+        transform: translateX(100px);
     }
 }
 
