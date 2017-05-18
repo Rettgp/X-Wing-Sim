@@ -213,33 +213,33 @@ var mk2split = function (t) {
 }
 var save = function () {
     movelog("W");
-    var url = "http://ynot6517.github.io/bench/?" + permalink(false);
+    var url = "http://gdphelps.github.io/X-Wing-Sim/?" + permalink(false);
     $(".social").html(Mustache.render(TEMPLATES["social"], {
         url: url,
         name: "save this link",
         encodedurl: encodeURI(url)
     }));
-    if (typeof gapi != "undefined" && typeof gapi.client.urlshortener != "undefined") {
-        var request = gapi.client.urlshortener.url.insert({
-            'longUrl': url
-        });
-        request.then(function (response) {
-            var url = response.result.id;
-            $(".tweet").show();
-            $('#submission').contents().find('#entry_245821581').val(url);
-            $('#submission').contents().find("#ss-form").submit();
-            $(".social").html(Mustache.render(TEMPLATES["social"], {
-                url: url,
-                name: url,
-                encodedurl: encodeURI(url)
-            }));
-        }, function (reason) {
-            $('#submission').contents().find("#ss-form").submit();
-            console.log('Error: ' + reason.result.error.message);
-        });
-    } else {
-        $('#submission').contents().find("#ss-form").submit();
-    }
+    //    if (typeof gapi != "undefined" && typeof gapi.client.urlshortener != "undefined") {
+    //        var request = gapi.client.urlshortener.url.insert({
+    //            'longUrl': url
+    //        });
+    //        request.then(function (response) {
+    //            var url = response.result.id;
+    //            $(".tweet").show();
+    //            $('#submission').contents().find('#entry_245821581').val(url);
+    //            $('#submission').contents().find("#ss-form").submit();
+    //            $(".social").html(Mustache.render(TEMPLATES["social"], {
+    //                url: url,
+    //                name: url,
+    //                encodedurl: encodeURI(url)
+    //            }));
+    //        }, function (reason) {
+    //            $('#submission').contents().find("#ss-form").submit();
+    //            console.log('Error: ' + reason.result.error.message);
+    //        });
+    //    } else {
+    //        $('#submission').contents().find("#ss-form").submit();
+    //    }
 }
 var myCallback = function (error, options, response) {
     if (response != null && typeof response.rows != "undefined") {
@@ -1019,25 +1019,25 @@ function win(destroyed) {
     note = note.replace(/ \+ /g, "*");
     note = note.replace(/ /g, "_");
     //console.log("note:"+encodeURI(note));
-    /*var url=encodeURI("https://ynot6517.github.io/bench/index.html?"+permalink(false));
+    var url = encodeURI("https://gdphelps.github.io/X-Wing-Sim/index.html?" + permalink(false));
     $("#submission").contents().find('#entry_209965003').val(titl);
     $('#submission').contents().find('#entry_390767903').val(note);
     $('#submission').contents().find('#entry_245821581').val("no short url");
     $('#submission').contents().find('#entry_1690611500').val(url);
     $(".tweet").hide();
     save();
-    for (i in ["email","facebook","tweet","googlep"]) {
-	(function(n) {
-	    $("."+n).click(function() {
-		ga("send","event",{
-		    eventCategory: 'social',
-		    eventAction: 'send',
-		    eventLabel: n
-		});
-	    });
-	})(i);
+    for (i in ["email", "facebook", "tweet", "googlep"]) {
+        (function (n) {
+            $("." + n).click(function () {
+                ga("send", "event", {
+                    eventCategory: 'social',
+                    eventAction: 'send',
+                    eventLabel: n
+                });
+            });
+        })(i);
     }
-    $(".victory-link").attr("href",url);
+    $(".victory-link").attr("href", url);
     /*var y1=0,y2=0;
     var t1=TEAMS[1].history;
     var t2=TEAMS[2].history;
@@ -1052,7 +1052,6 @@ function win(destroyed) {
     }
     var scaley=$('#svgLine').height()/Math.max(Math.max.apply(null,val1),Math.max.apply(null,val2));
     for (i=0; i<=round; i++) { val1[i]*=scaley; val2[i]*=scaley; }
-
     sl = Snap('#svgLine');*/
     //sl.path("M 0 0 L "+val1);
     //sl.polyline(val2);

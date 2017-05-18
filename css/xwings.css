@@ -197,20 +197,24 @@ display:none
     ul#listunits {
         font-size: larger
     }
-}
-
-@media screen and (max-height: 800px) {
-    ul#caroussel {
-        bottom: 0;
-        font-size: 0.8em;
-        height: 20em;
-        padding-top: 9em;
+    ul#caroussel #shipdetails {
+        display: none;
     }
-    ul#caroussel li {
-        height: 20em
+    ul#caroussel li:hover #shipdetails {
+        display: block;
     }
-    ul#caroussel .pilots tbody {
-        height: 12em
+    ul#caroussel li:hover #largeship {
+        display: none;
+    }
+    ul#caroussel li:hover,
+    ul#caroussel li.highlighted {
+        transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1.25);
+    }
+    ul#caroussel li:hover~li {
+        transform: translateX(200px);
+    }
+    ul.caroussel:not(:hover) li.highlighted {
+        opacity: 1
     }
 }
 
@@ -336,22 +340,6 @@ article {
     height: calc(100% - 4ex)
 }
 
-.tooltip {
-    position: fixed;
-    width: 20em;
-    color: #000;
-    font-weight: 400;
-    font-variant: normal;
-    font-family: "space";
-    display: none;
-    background: #fffAF0;
-    border-radius: 5px;
-    padding: 5px;
-    box-shadow: 2px 2px 2px #CCC;
-    margin: 2px;
-    text-align: justify
-}
-
 .textfilter {
     background: #888;
     margin: 0;
@@ -374,14 +362,6 @@ article {
     padding: 7px;
     background: #EEE;
     margin-bottom: 5px;
-}
-
-tr:hover .tooltip,
-.tr:hover .tooltip,
-.name:hover .tooltip {
-    transition: opacity .25s ease-in-out;
-    display: block;
-    opacity: 1
 }
 
 body {
@@ -2785,31 +2765,6 @@ ul#caroussel li {
     transition: transform 0.2s ease-in-out;
 }
 
-ul#caroussel li:hover,
-ul#caroussel li.highlighted {
-    transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1.25);
-}
-
-ul#caroussel li:hover~li {
-    transform: translateX(200px);
-}
-
-ul.caroussel:not(:hover) li.highlighted {
-    opacity: 1
-}
-
-ul#caroussel #shipdetails {
-    display: none;
-}
-
-ul#caroussel li:hover #shipdetails {
-    display: block;
-}
-
-ul#caroussel li:hover #largeship {
-    display: none;
-}
-
 ul#listunits {
     height: 25em;
     padding: 0 0 0 2em;
@@ -3110,4 +3065,96 @@ ul#listunits .shipdial table {
     color: black;
     background: yellow;
     opacity: 1
+}
+
+.tooltip {
+    position: fixed;
+    width: 20em;
+    color: #000;
+    font-weight: 400;
+    font-variant: normal;
+    font-family: "space";
+    display: none;
+    background: #fffAF0;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px #CCC;
+    margin: 2px;
+    text-align: justify
+}
+
+tr:hover .tooltip,
+.tr:hover .tooltip,
+.name:hover .tooltip {
+    transition: opacity .25s ease-in-out;
+    display: block;
+    opacity: 1
+}
+
+@media screen and (max-height: 800px) {
+    ul#caroussel {
+        bottom: 0;
+        font-size: 0.8em;
+    }
+    ul#caroussel .pilots tbody {
+        height: 12em
+    }
+    ul#caroussel #shipdetails {
+        display: block;
+    }
+    ul#caroussel #largeship {
+        display: none;
+    }
+    ul#caroussel li {
+        transform: rotateY(0deg);
+        margin-right: 0;
+        width: 15em;
+        margin: 0;
+    }
+    ul.caroussel table {
+        margin: 0;
+    }
+    ul.caroussel table.pilots tr:nth-child(n) .tooltip {
+        left: 0em;
+        vertical-align: top;
+        margin-top: 00em;
+        top: 0;
+    }
+    .tooltip {
+        text-align: center;
+        color: #000;
+        background: #fff;
+        position: absolute;
+        z-index: 100;
+        padding: 15px;
+        display: none;
+    }
+    .tooltip:after/* triangle decoration */
+    {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #fff;
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -10px;
+        margin-left: -10px;
+    }
+    .tooltip.top:after {
+        border-top-color: transparent;
+        border-bottom: 10px solid #fff;
+        top: -20px;
+        bottom: auto;
+    }
+    .tooltip.left:after {
+        left: 10px;
+        margin: 0;
+    }
+    .tooltip.right:after {
+        right: 10px;
+        left: auto;
+        margin: 0;
+    }
 }
