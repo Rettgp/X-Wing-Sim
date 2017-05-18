@@ -197,8 +197,19 @@ display:none
     ul#listunits {
         font-size: larger
     }
+<<<<<<< HEAD
     ul#caroussel #shipdetails {
         display: none;
+=======
+}
+
+@media screen and (max-height: 800px) {
+    ul#caroussel {
+        bottom: 0;
+        font-size: 0.5em;
+        height: 20em;
+        padding-top: 6em;
+>>>>>>> b2b3e7eb33e608a363a58d765dae1f4d0e3fb889
     }
     ul#caroussel li:hover #shipdetails {
         display: block;
@@ -215,6 +226,12 @@ display:none
     }
     ul.caroussel:not(:hover) li.highlighted {
         opacity: 1
+    }
+    ul#caroussel li.highlighted {
+        transform: rotateY(0deg) translateZ(30em) translateY(-8em) scale(1);
+    }
+    ul#caroussel li:hover~li {
+        transform: translateX(100px);
     }
 }
 

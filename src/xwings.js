@@ -1083,6 +1083,7 @@ function createsquad() {
     });
     phase = CREATION_PHASE;
     $("footer").hide();
+    $(".fTab").hide();
     $('#consolecb').removeAttr('Checked');
     $(".nextphase").prop("disabled", false);
     currentteam.changefaction("REBEL");
@@ -2029,6 +2030,7 @@ function setphase(cannotreplay) {
             $(".buttonbar .share-buttons").hide();
             $(".h2 .share-buttons").show();
             $(".permalink").hide();
+            $(".fTab").hide();
             $(".activeunit").prop("disabled", true);
             $("#rightpanel").hide();
             $("#leftpanel").hide();
@@ -2241,6 +2243,8 @@ function setphase(cannotreplay) {
             $(".unit").css("cursor", "move");
             $("#positiondial").show();
             $(".permalink").show();
+            $("footer").show();
+            $(".fTab").show();
             $("#savebtn").hide();
             if (cannotreplay != true) startreplayall();
             break;
