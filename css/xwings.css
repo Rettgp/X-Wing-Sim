@@ -869,10 +869,11 @@ table.dataTable td:first-child {
     line-height: 1.5em;
     padding: .1em;
     margin: .1em;
-    background: #333;
-    border-radius: 50%;
+    background: transparent;
+    border: none;
     min-width: 1.5em;
-    text-align: center
+    text-align: center;
+    text-shadow: 1px 1px black;
 }
 
 .team,
@@ -905,23 +906,29 @@ button.statfire {
 
 .statskill,
 .PS {
-    color: #FA0
+    color: #FA0;
+    font-weight: bold;
 }
 
 .statevade {
-    color: #0A0
+    color: #0A0;
+    font-weight: bold;
+}
+
+.val {
+    font-weight: bold;
 }
 
 .stathull,
 .hull,
 .chull {
-    color: #EE0
+    color: #EE0;
 }
 
 .statshield,
 .shield,
 .cshield {
-    color: #0AF
+    color: #0AF;
 }
 
 .hull,
@@ -1394,7 +1401,7 @@ tttable {
 }
 
 .nofire .statfire {
-    color: #b22222
+    color: #b22222;
 }
 
 .Laser,
@@ -1956,7 +1963,7 @@ label {
 }
 
 .statfire {
-    color: red
+    color: red;
 }
 
 #rocks {
@@ -1968,7 +1975,7 @@ button.statfire,
 button.statevade,
 .player {
     cursor: pointer;
-    font-size: smaller
+    font-size: large;
 }
 
 .pre {

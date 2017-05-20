@@ -3843,22 +3843,20 @@ Unit.prototype = {
         str += "<div><div>";
         if (i > -1) str += "<div class='usabletokens' style='width:100%'>" + this.getusabletokens() + "</div>";
         str += "</div></div>";
-        var a;
-        var b;
         var strw = "",
             stru = "",
             strc = "";
 
-        a = "<td><button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[" + i + "].togglerange();'><span class='val'>" + this.getagility() + "</span><span class='symbols'>^</span></button></td>";
-        b = "<td></td>";
-        if (this.team == 1) strw += "<tr>" + b + a + "</tr>";
-        else strw += "<tr>" + a + b + "</tr>";
+        var evade_html = "<td><button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[" + i + "].togglerange();'><span class='symbols'>^</span><span class='val'>" + this.getagility() + "</span></button></td>";
+        var shield_html = "<td><div class='statshield'><span class='symbols'>*</span><span class='val'>" + this.shield + "</span></div></td>";
+        var hull_html = "<td><div class='stathull'><span class='symbols'>&</span><span class='val'>" + this.hull + "</span></div></td>";
+        strw += "<tr>" + shield_html + hull_html + evade_html;
 
         //for (i=0; i<this.weapons.length; i++) strw+=this.weapons[i];
         for (i = 0; i < this.upgrades.length; i++) stru += this.upgrades[i];
         for (i = 0; i < this.criticals.length; i++) strc += this.criticals[i];
 
-        str += "<table class='details' style='width:100%'>" + strw + stru + strc + "</table></div>"
+        str += "<table class='details' style='table-layout:fixed; width:100%'>" + strw + stru + strc + "</table></div>"
         return str;
     },
     canusefocus: function () {
