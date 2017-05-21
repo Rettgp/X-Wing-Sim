@@ -669,13 +669,17 @@
 
     <script id="bomb" type="x-tmpl-mustache">
         <tr {{^isactive}} class="inactive" {{/isactive}}>
-            <td style="display:{{#left}}none{{/left}}{{^left}}block{{/left}}"><code class="{{type}} upgrades"></code></td>
-            <td class="tdstat">
-                <span>
+            <td style="font-size:small; display:{{#left}}none{{/left}}{{^left}}table-cell{{/left}}">
+                <code class="{{type}} upgrades"></code>
+            </td>
+            <td class="tdstat" colspan="3">
+                <span style="font-size:small">
 	    {{{trname}}}{{#ordnance}}<sup class="ordnance">x2</sup>{{/ordnance}}
 	  </span>
             </td>
-            <td style="display:{{#left}}block{{/left}}{{^left}}none{{/left}}"><code class="{{type}} upgrades"></code></td>
+            <td style="font-size:small; display:{{^left}}none{{/left}}{{#left}}table-cell{{/left}}">
+                <code class="{{type}} upgrades"></code>
+            </td>
             {{#tooltip}}
             <td class="tooltip outoverflow">
                 <span>{{{.}}}</span>
@@ -707,8 +711,8 @@
 	    <span class="val">{{getattack}}</span><span class="symbols">{{attackkey}}</span>
 	  </button>
             </td>
-            <td class="tdstat" colspan="2">
-                <span>
+            <td class="tdstat" colspan="3">
+                <span style="font-size:small">
 	    {{{trname}}}{{#ordnance}}<sup class="ordnance">x2</sup>{{/ordnance}}
 	    <span style="font-size:smaller">
 	      {{#req}}<span class="symbols">{{.}}</span>{{/req}}[{{getlowrange}}-{{gethighrange}}]
