@@ -2046,7 +2046,7 @@ function setphase(cannotreplay) {
             $(".imagebg").show();
             $("#addcomment").show();
 
-            var t = ["bomb", "weapon", "upgrade", "social"];
+            var t = ["unit-combat", "bomb", "weapon", "upgrade", "social"];
             for (var i = 0; i < t.length; i++) {
                 TEMPLATES[t[i]] = $("#" + t[i]).html();
                 Mustache.parse(TEMPLATES[t[i]]);

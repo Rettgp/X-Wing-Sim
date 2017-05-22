@@ -416,6 +416,7 @@ function Unit(team, pilotid) {
     this.weapons = [];
     this.upgrades = [];
     this.criticals = [];
+    this.conditions = {};
     this.bombs = [];
     this.lastdrop = -1;
     Laser(this, u.weapon_type, u.fire);
@@ -3794,70 +3795,63 @@ Unit.prototype = {
     },
     beginattack: function () {},
     toString: function () {
-        if (phase == SELECT_PHASE || phase == CREATION_PHASE) return this.toString2();
-        var i;
-        var n = 8;
-        i = squadron.indexOf(this);
-        if (i == -1) str = "<div class='dead '>";
-        else if (this.isdocked) str = "<div class='docked'>";
-        else str = "<div>";
-
-        str += "<div><div class='statskill'>" + this.getskill() + "</div>";
-        t = formatstring(getpilottexttranslation(this, this.faction));
-        str += "<div class='name'>";
-        if (t != "") str += "<div class='tooltip outoverflow'><span>" + t + "</span></div>"
-        str += "<div>" + translate(this.name) + "</div></div>";
-        text = SHIP_translation[this.ship.name];
-        if (typeof text == "undefined") text = this.ship.name;
-        str += "<div><div style='font-size:smaller'><code class='" + this.faction + "'></code>&nbsp;" + text + "</div></div>";
-        n += this.upgrades.length * 2;
-        if (this.hull + this.shield <= n) {
-            str += "<div class='outoverflow stat'>";
-            str += "<div class='hull'>" + repeat("u ", this.hull) + "</div>";
-            str += "<div class='shield'>" + repeat("u ", this.shield) + "</div></div>";
+        var n=0;
+        var i,j,k;
+        this.shipname=SHIP_translation[this.ship.name];
+        if (typeof SHIP_translation[this.ship.name]=="undefined") this.shipname=this.ship.name;
+        this.translatedname=translate(this.name);
+        
+        if (phase==SELECT_PHASE) {
+            var img=PILOTS[this.pilotid].dict;
+            if (PILOTS[this.pilotid].ambiguous==true
+            &&typeof PILOTS[this.pilotid].edition!="undefined") 
+            img+="-"+PILOTS[this.pilotid].edition.toLowerCase().replace(" ","");
+            this.imgname=img;
+            this.isunique=(PILOTS[this.pilotid].unique==true?false:true);
+            this.fire=this.weapons[0].getattack();
+            this.diallist=dial2JSON(this.getdial());
+            return Mustache.render(TEMPLATES["unit-creation"], this);
         } else {
-            if (this.hull > n) {
-                str += "<div class='outoverflow stat'>";
-                str += "<div class='hull'>" + repeat("u ", n) + "</div></div>";
-                if (this.hull <= n * 2) {
-                    str += "<div class='outoverflow stat2'>";
-                    str += "<div class='hull'>" + repeat("u ", this.hull - n) + "</div>";
-                    if (this.shield + this.hull <= n * 2)
-                        str += "<div class='shield'>" + repeat("u ", this.shield) + "</div></div>";
-                    else {
-                        str += "<div class='shield'>" + repeat("u ", n * 2 - this.hull) + "</div></div>";
-                        str += "<div class='outoverflow stat3'>";
-                        str += "<div class='shield'>" + repeat("u ", this.shield - n * 2 + this.hull) + "</div></div>";
-                    }
+            var t=formatstring(getpilottexttranslation(this,this.faction));
+            this.id = squadron.indexOf(this);
+            if (t!="") this.tooltip=[t]; else this.tooltip=[];
+            n=8+this.upgrades.length*2;
+            this.hullpts2="";
+            this.shieldpts2="";
+            this.hullpts3="";
+            this.shieldpts3="";
+            if (this.hull+this.shield<=n) {
+                this.hullpts=repeat("u ",this.hull);
+                this.shieldpts=repeat("u ",this.shield);
+            } else if (this.hull>n) {
+                this.hullpts=repeat("u ",this.hull);
+                this.shieldpts="";
+                if (this.hull<=n*2) {
+                    this.hullpts2=repeat("u ",this.hull-n);
+                if (this.shield+this.hull<=n*2) {
+                    this.shieldpts2=repeat("u ",this.shield);
                 } else {
-                    str += "<div class='outoverflow stat2'><div class='hull'>" + repeat("u ", n) + "</div></div>";
-                    str += "<div class='outoverflow stat3'><div class='hull'>" + repeat("u ", this.hull - n * 2) + "</div>";
-                    str += "<div class='shield'>" + repeat("u ", this.shield) + "</div></div>";
+                    this.shieldpts2=repeat("u ",n*2-this.hull);
+                    this.shieldpts3=repeat("u ",this.shield-n*2);
                 }
-            } else { // No more than 8 shields ? 
-                str += "<div class='outoverflow stat'><div class='hull'>" + repeat("u ", this.hull) + "</div>";
-                str += "<div class='shield'>" + repeat("u ", n - this.hull) + "</div></div>";
-                str += "<div class='outoverflow stat2'><div class='shield'>" + repeat("u ", this.shield - n + this.hull) + "</div></div>";
+            } else {
+                this.hullpts2=repeat("u ",n);
+                this.hullpts3=repeat("u ",this.hull-n*2);
+                this.shieldpts3=repeat("u ",this.shield);
             }
+            } else {
+                this.hullpts=repeat("u ",this.hull);
+                this.shieldpts=repeat("u ",n-this.hull);
+                this.shieldpts2=repeat("u ",this.shield-n+this.hull);
+            }
+            this.isinleft=(this.team==1);
+            this.conds=[];
+            for (i in this.conditions) {
+                this.conds.push(this.conditions[i]);
+            }
+            var rendered = Mustache.render(TEMPLATES["unit-combat"], this);
+            return rendered;
         }
-        str += "<div><div>";
-        if (i > -1) str += "<div class='usabletokens' style='width:100%'>" + this.getusabletokens() + "</div>";
-        str += "</div></div>";
-        var strw = "",
-            stru = "",
-            strc = "";
-
-        var evade_html = "<td><button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[" + i + "].togglerange();'><span class='symbols'>^</span><span class='val'>" + this.getagility() + "</span></button></td>";
-        var shield_html = "<td><div class='statshield'><span class='symbols'>*</span><span class='val'>" + this.shield + "</span></div></td>";
-        var hull_html = "<td><div class='stathull'><span class='symbols'>&</span><span class='val'>" + this.hull + "</span></div></td>";
-        strw += "<tr>" + shield_html + hull_html + evade_html;
-
-        //for (i=0; i<this.weapons.length; i++) strw+=this.weapons[i];
-        for (i = 0; i < this.upgrades.length; i++) stru += this.upgrades[i];
-        for (i = 0; i < this.criticals.length; i++) strc += this.criticals[i];
-
-        str += "<table class='details' style='table-layout:fixed; width:100%'>" + strw + stru + strc + "</table></div>"
-        return str;
     },
     canusefocus: function () {
         return this.focus > 0;
