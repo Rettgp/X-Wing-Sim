@@ -80,7 +80,7 @@ var CONDITIONS = {
                 self.remove();
             });
             this.org.wrap_before("endcombatphase", this, function () {
-                if (self.org.hasfired == 0) self.remove();
+                if (this.hasfired == 0) self.remove();
             });
         }
     },

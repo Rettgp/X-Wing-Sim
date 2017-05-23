@@ -3418,11 +3418,14 @@ Unit.prototype = {
                 "class": "m-skip wbutton"
             })
             .click(function () {
-                this.addhasfired();
-                this.show();
-                this.cleanupattack();
+                this.cancelattack();
             }.bind(this)));
         $("#attackdial").html(d);
+    },
+    cancelattack: function() {
+        this.maxfired--;
+        this.show();
+        this.cleanupattack();
     },
     candotarget: function () {
         var l = this.gettargetableunits(3).length;
