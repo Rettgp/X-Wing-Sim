@@ -52,7 +52,9 @@ var TEMPLATES = {
     "bomb": "",
     "upgrade": "",
     "weapon": "",
-    "social": ""
+    "social": "",
+    "unit-combat": "",
+    "condition": ""
 };
 //var sl;
 //var increment=1;
@@ -2046,7 +2048,7 @@ function setphase(cannotreplay) {
             $(".imagebg").show();
             $("#addcomment").show();
 
-            var t = ["unit-combat", "bomb", "weapon", "upgrade", "social"];
+            var t = ["unit-combat", "condition", "bomb", "weapon", "upgrade", "social"];
             for (var i = 0; i < t.length; i++) {
                 TEMPLATES[t[i]] = $("#" + t[i]).html();
                 Mustache.parse(TEMPLATES[t[i]]);

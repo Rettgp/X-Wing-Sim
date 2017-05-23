@@ -668,53 +668,51 @@
     </script>
 
     <script id="unit-combat" type="text/template">
-      <div {{#isdead}}class="dead"{{/isdead}}{{^isdead}}{{#isdocked}}class="docked"{{/isdocked}}{{/isdead}}>
-	<div>
-	  <div class="statskill">{{getskill}}</div>
-	  <div class="name">
-	    {{#tooltip}}<div class="tooltip outoverflow">{{{.}}}</div>{{/tooltip}}
-	    <div>{{name}}</div>
-	  </div>
-	  <div>
-	    <div style="font-size:smaller">
-	      <span class="{{faction}}"></span>
-	      &nbsp;{{shipname}}
-	    </div>
-	  </div>
-	  <div class="outoverflow stat">
-	    <div class="hull">{{{hullpts}}}</div>
-	    <div class="shield">{{{shieldpts}}}</div>
-	  </div>
-	  <div class="outoverflow stat2">
-	    <div class="hull">{{hullpts2}}</div>
-	    <div class="shield">{{shieldpts2}}</div>
-	  </div>
-	  <div class="outoverflow stat3">
-	    <div class="hull">{{hullpts3}}</div>
-	    <div class="shield">{{shieldpts3}}</div>
-	  </div>
-	</div>
-	<div>
-	  <div>
-	    <div class="usabletokens" style="width:100%">{{{getusabletokens}}}</div>
-	  </div>
-	</div>
-	<table class="details" style="width:100%">
-	  <tr>
-	    <td>
-            <button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[{{id}}].togglerange();'><span class='symbols'>^</span><span class='val'>{{getagility}}</span></button>
-	    </td>
-	    <td>
-            <div class='statshield'><span class='symbols'>*</span><span class='val'>{{shield}}</span></div>
-	    </td>
-	    <td>
-            <div class='stathull'><span class='symbols'>&</span><span class='val'>{{hull}}</span></div>
-	    </td>
-	  {{#upgrades}}{{{.}}}{{/upgrades}}
-	  {{#criticals}}{{{.}}}{{/criticals}}
-	  {{#conds}}{{{.}}}{{/conds}}
-	</table>
-      </div>
+        <div {{#isdead}}class="dead" {{/isdead}}{{^isdead}}{{#isdocked}}class="docked" {{/isdocked}}{{/isdead}}>
+            <div>
+                <div class="statskill">{{getskill}}</div>
+                <div class="name">
+                    {{#tooltip}}
+                    <div class="tooltip outoverflow">{{{.}}}</div>{{/tooltip}}
+                    <div>{{name}}</div>
+                </div>
+                <div>
+                    <div style="font-size:smaller">
+                        <span class="{{faction}}"></span> &nbsp;{{shipname}}
+                    </div>
+                </div>
+                <div class="outoverflow stat">
+                    <div class="hull">{{{hullpts}}}</div>
+                    <div class="shield">{{{shieldpts}}}</div>
+                </div>
+                <div class="outoverflow stat2">
+                    <div class="hull">{{hullpts2}}</div>
+                    <div class="shield">{{shieldpts2}}</div>
+                </div>
+                <div class="outoverflow stat3">
+                    <div class="hull">{{hullpts3}}</div>
+                    <div class="shield">{{shieldpts3}}</div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="usabletokens" style="width:100%">{{{getusabletokens}}}</div>
+                </div>
+            </div>
+            <table class="details" style="width:100%">
+                <tr>
+                    <td>
+                        <button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[{{id}}].togglerange();'><span class='symbols'>^</span><span class='val'>{{getagility}}</span></button>
+                    </td>
+                    <td>
+                        <div class='statshield'><span class='symbols'>*</span><span class='val'>{{shield}}</span></div>
+                    </td>
+                    <td>
+                        <div class='stathull'><span class='symbols'>&</span><span class='val'>{{hull}}</span></div>
+                    </td>
+                    {{#upgrades}}{{{.}}}{{/upgrades}} {{#criticals}}{{{.}}}{{/criticals}} {{#conds}}{{{.}}}{{/conds}}
+            </table>
+        </div>
     </script>
 
     <script id="bomb" type="x-tmpl-mustache">
@@ -730,6 +728,24 @@
             <td style="font-size:small; display:{{^left}}none{{/left}}{{#left}}table-cell{{/left}}">
                 <code class="{{type}} upgrades"></code>
             </td>
+            {{#tooltip}}
+            <td class="tooltip outoverflow">
+                <span>{{{.}}}</span>
+            </td>
+            {{/tooltip}} {{^tooltip}}
+            <td></td>{{/tooltip}}
+        </tr>
+    </script>
+
+    <script id="condition" type="text/template">
+        <tr>
+            <td style="display:{{#left}}none{{/left}}{{^left}}block{{/left}}"><code class="{{type}} upgrades"></code></td>
+            <td class="tdstat" colspan="3">
+                <span style="font-size:smaller">
+	    {{{trname}}}
+	  </span>
+            </td>
+            <td style="display:{{#left}}block{{/left}}{{^left}}none{{/left}}"><code class="{{type}} upgrades"></code></td>
             {{#tooltip}}
             <td class="tooltip outoverflow">
                 <span>{{{.}}}</span>

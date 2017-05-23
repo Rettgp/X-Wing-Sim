@@ -4525,9 +4525,9 @@ var PILOTS = [
         skill: 4,
         upgrades: [],
         points: 14,
-        init: function() {
-            this.wrap_after("endattack",this,function(c,h,t) {
-        	c=new Condition(t,this,"Suppressive Fire");
+        init: function () {
+            this.wrap_after("endattack", this, function (c, h, t) {
+                c = new Condition(t, this, "Suppressive Fire");
             });
         }
     },

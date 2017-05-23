@@ -6,6 +6,7 @@ function Team(team) {
     this.isia = false;
     this.initiative = false;
     this.units = [];
+    this.conditions = {};
     this.allhits = this.allcrits = this.allevade = this.allred = this.allgreen = 0;
 }
 Team.prototype = {

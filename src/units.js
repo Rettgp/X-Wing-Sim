@@ -2084,7 +2084,7 @@ Unit.prototype = {
                     this.afterattackeffect(c, h);
                     if (targetunit.canbedestroyed(skillturn)) targetunit.checkdead();
                     targetunit.endbeingattacked(c, h, this);
-                    this.endattack(c, h, this);
+                    this.endattack(c, h, targetunit);
                     this.cleanupattack();
                 }.bind(this));
             } else {
@@ -2092,7 +2092,7 @@ Unit.prototype = {
                 barrier(function () {
                     targetunit.afterdefenseeffect(c, h, this);
                     if (targetunit.canbedestroyed(skillturn)) targetunit.checkdead();
-                    this.endattack(c, h, this);
+                    this.endattack(c, h, targetunit);
                     targetunit.endbeingattacked(c, h, this);
                     this.cleanupattack();
                 }.bind(this));
@@ -3795,57 +3795,58 @@ Unit.prototype = {
     },
     beginattack: function () {},
     toString: function () {
-        var n=0;
-        var i,j,k;
-        this.shipname=SHIP_translation[this.ship.name];
-        if (typeof SHIP_translation[this.ship.name]=="undefined") this.shipname=this.ship.name;
-        this.translatedname=translate(this.name);
-        
-        if (phase==SELECT_PHASE) {
-            var img=PILOTS[this.pilotid].dict;
-            if (PILOTS[this.pilotid].ambiguous==true
-            &&typeof PILOTS[this.pilotid].edition!="undefined") 
-            img+="-"+PILOTS[this.pilotid].edition.toLowerCase().replace(" ","");
-            this.imgname=img;
-            this.isunique=(PILOTS[this.pilotid].unique==true?false:true);
-            this.fire=this.weapons[0].getattack();
-            this.diallist=dial2JSON(this.getdial());
+        var n = 0;
+        var i, j, k;
+        this.shipname = SHIP_translation[this.ship.name];
+        if (typeof SHIP_translation[this.ship.name] == "undefined") this.shipname = this.ship.name;
+        this.translatedname = translate(this.name);
+
+        if (phase == SELECT_PHASE) {
+            var img = PILOTS[this.pilotid].dict;
+            if (PILOTS[this.pilotid].ambiguous == true &&
+                typeof PILOTS[this.pilotid].edition != "undefined")
+                img += "-" + PILOTS[this.pilotid].edition.toLowerCase().replace(" ", "");
+            this.imgname = img;
+            this.isunique = (PILOTS[this.pilotid].unique == true ? false : true);
+            this.fire = this.weapons[0].getattack();
+            this.diallist = dial2JSON(this.getdial());
             return Mustache.render(TEMPLATES["unit-creation"], this);
         } else {
-            var t=formatstring(getpilottexttranslation(this,this.faction));
+            var t = formatstring(getpilottexttranslation(this, this.faction));
             this.id = squadron.indexOf(this);
-            if (t!="") this.tooltip=[t]; else this.tooltip=[];
-            n=8+this.upgrades.length*2;
-            this.hullpts2="";
-            this.shieldpts2="";
-            this.hullpts3="";
-            this.shieldpts3="";
-            if (this.hull+this.shield<=n) {
-                this.hullpts=repeat("u ",this.hull);
-                this.shieldpts=repeat("u ",this.shield);
-            } else if (this.hull>n) {
-                this.hullpts=repeat("u ",this.hull);
-                this.shieldpts="";
-                if (this.hull<=n*2) {
-                    this.hullpts2=repeat("u ",this.hull-n);
-                if (this.shield+this.hull<=n*2) {
-                    this.shieldpts2=repeat("u ",this.shield);
+            if (t != "") this.tooltip = [t];
+            else this.tooltip = [];
+            n = 8 + this.upgrades.length * 2;
+            this.hullpts2 = "";
+            this.shieldpts2 = "";
+            this.hullpts3 = "";
+            this.shieldpts3 = "";
+            if (this.hull + this.shield <= n) {
+                this.hullpts = repeat("u ", this.hull);
+                this.shieldpts = repeat("u ", this.shield);
+            } else if (this.hull > n) {
+                this.hullpts = repeat("u ", this.hull);
+                this.shieldpts = "";
+                if (this.hull <= n * 2) {
+                    this.hullpts2 = repeat("u ", this.hull - n);
+                    if (this.shield + this.hull <= n * 2) {
+                        this.shieldpts2 = repeat("u ", this.shield);
+                    } else {
+                        this.shieldpts2 = repeat("u ", n * 2 - this.hull);
+                        this.shieldpts3 = repeat("u ", this.shield - n * 2);
+                    }
                 } else {
-                    this.shieldpts2=repeat("u ",n*2-this.hull);
-                    this.shieldpts3=repeat("u ",this.shield-n*2);
+                    this.hullpts2 = repeat("u ", n);
+                    this.hullpts3 = repeat("u ", this.hull - n * 2);
+                    this.shieldpts3 = repeat("u ", this.shield);
                 }
             } else {
-                this.hullpts2=repeat("u ",n);
-                this.hullpts3=repeat("u ",this.hull-n*2);
-                this.shieldpts3=repeat("u ",this.shield);
+                this.hullpts = repeat("u ", this.hull);
+                this.shieldpts = repeat("u ", n - this.hull);
+                this.shieldpts2 = repeat("u ", this.shield - n + this.hull);
             }
-            } else {
-                this.hullpts=repeat("u ",this.hull);
-                this.shieldpts=repeat("u ",n-this.hull);
-                this.shieldpts2=repeat("u ",this.shield-n+this.hull);
-            }
-            this.isinleft=(this.team==1);
-            this.conds=[];
+            this.isinleft = (this.team == 1);
+            this.conds = [];
             for (i in this.conditions) {
                 this.conds.push(this.conditions[i]);
             }
