@@ -1299,6 +1299,15 @@
         },
         "A Debt To Pay": {
             "text": "When attacking a ship that has the 'A Score to Settle' Upgrade card, you may change 1 %FOCUS% result to a %CRIT% result."
+        },
+        "Intensity(Ready)": {
+            "text": "After you perform a boost or barrel roll action, you may assign 1 focus or evade token to your ship. If you do, flip this card."
+        },
+        "Intensity(Exhausted)": {
+            "text": "At the end of the Combat phase, you may spend 1 focus or evade token to flip this card."
+        },
+        "Intensity": {
+            "text": "Faceup: After you perform a boost or barrel roll action, you may assign 1 focus or evade token to your ship. If you do, flip this card.  Facedown: At the end of the Combat phase, you may spend 1 focus or evade token to flip this card."
         }
     },
     "criticals": {

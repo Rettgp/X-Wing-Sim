@@ -187,6 +187,84 @@ var UPGRADES = [
         }
     },
     {
+        name: "Intensity(Ready)",
+        type: ELITE,
+        points: 0,
+        invisible: true
+    },
+    {
+        name: "Intensity(Exhausted)",
+        type: ELITE,
+        points: 0,
+        invisible: true
+    },
+    {
+        name: "Intensity",
+        type: ELITE,
+        points: 2,
+        done: true,
+        faceup: true,
+        switch: function () {
+            this.faceup = !this.faceup;
+            if (this.faceup) this.name = "Intensity(Ready)";
+            else this.name = "Intensity(Exhausted)";
+        },
+        init: function (sh) {
+            var self = this;
+            sh.wrap_after("updateactivationdial", this, function (ad) {
+                if (self.isactive && self.faceup && (this.isactiondone("ROLL") ||
+                        this.isactiondone("BOOST"))) {
+                    this.addactivationdial(
+                        function () {
+                            return self.faceup && (this.isactiondone("ROLL") ||
+                                this.isactiondone("BOOST"));
+                        }.bind(this),
+                        function () {
+                            this.addfocustoken();
+                            self.switch();
+                            this.show();
+                        }.bind(this),
+                        A["FOCUS"].key,
+                        $("<div>").attr({
+                            class: "symbols",
+                            title: self.name
+                        }));
+                    this.addactivationdial(
+                        function () {
+                            return self.faceup && (this.isactiondone("ROLL") ||
+                                this.isactiondone("BOOST"));
+                        }.bind(this),
+                        function () {
+                            this.addevadetoken();
+                            self.switch();
+                            this.show();
+                        }.bind(this),
+                        A["EVADE"].key,
+                        $("<div>").attr({
+                            class: "symbols",
+                            title: self.name
+                        }));
+                }
+                return this.activationdial;
+            });
+            sh.wrap_before("endcombatphase", this, function () {
+                if (self.isactive && !self.faceup) {
+                    if (this.canuseevade()) {
+                        this.removeevadetoken();
+                        self.switch();
+                        this.show();
+                        this.log("1 %EVADE% -> [%0]", self.name);
+                    } else if (this.canusefocus()) {
+                        this.removefocustoken();
+                        self.switch();
+                        this.show();
+                        this.log("1 %FOCUS% -> [%0]", self.name);
+                    }
+                }
+            });
+        }
+    },
+    {
         name: "BB-8",
         unique: true,
         done: true,

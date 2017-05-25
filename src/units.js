@@ -3422,7 +3422,7 @@ Unit.prototype = {
             }.bind(this)));
         $("#attackdial").html(d);
     },
-    cancelattack: function() {
+    cancelattack: function () {
         this.maxfired--;
         this.show();
         this.cleanupattack();
@@ -3567,6 +3567,22 @@ Unit.prototype = {
             this.resolvemaneuver();
         }.bind(this)).appendTo("#activationdial > div");
 
+    },
+    forceshowactivation: function () {
+        $("#activationdial").html("<div></div>");
+        var ad = this.activationdial;
+        for (var i = 0; i < ad.length; i++) {
+            (function (k) {
+                var adi = ad[k];
+                if (adi.pred()) {
+                    adi.elt.appendTo("#activationdial > div").click(function () {
+                        $("#activationdial").html("<div></div>");
+                        adi.action();
+                    }).html(adi.html);
+                }
+            })(i);
+        }
+        $("#activationdial").show();
     },
     movelog: function (s) {
         if (s.match(/L-%%.*/))
