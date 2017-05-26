@@ -799,6 +799,26 @@ function modrolld(f, id) {
     $("#dtokens #mod" + id).remove();
 }
 
+function cancelroll(f, id, to) {
+    if (to == DEFENSE_M) return cancelrolld(f, id);
+    var n = getattackdice();
+    var foc = $(".focusreddice").length;
+    var h = $(".hitreddice").length;
+    var c = $(".criticalreddice").length;
+    var roll = f(100 * foc + 10 * c + h, n);
+    displaydefenseroll(roll.m, roll.n);
+    $("#atokens #mod" + id).remove();
+}
+
+function cancelrolld(f, id) {
+    var n = getdefensedice();
+    var foc = $(".focusgreendice").length;
+    var e = $(".evadegreendice").length;
+    var roll = f(10 * foc + e, n);
+    displaydefenseroll(roll.m, roll.n);
+    $("#dtokens #mod" + id).remove();
+}
+
 function addgreenclickchange() {
     var change = function () {
         if ($(this).hasClass("focusgreendice")) {

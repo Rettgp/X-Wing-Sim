@@ -81,7 +81,8 @@ var generics = [];
 var gid = 0;
 var REROLL_M = 0,
     ADD_M = 1,
-    MOD_M = 2
+    MOD_M = 2,
+    CANCEL_M = 3;
 var ATTACK_M = 0,
     DEFENSE_M = 1,
     ATTACKCOMPARE_M = 2;
@@ -2864,6 +2865,19 @@ Unit.prototype = {
             }.bind(a));
             return e;
         }
+        var getcancel = function (a, i) {
+            var cl = a.str + (from == DEFENSE_M ? "modtokend" : "modtokena");
+            if (typeof a.token != "undefined") cl = "x" + a.str + "token";
+            var e = $("<td>").addClass(cl).attr({
+                id: "mod" + i,
+                title: "cancel result [" + a.org.name + "]"
+            }).html("");
+            // should be from /to instead of just to.
+            e.click(function () {
+                cancelroll(this.f, i, to);
+            }.bind(a));
+            return e;
+        }
         var getreroll = function (a, i) {
             var n = a.n();
             var s = "R" + n;
@@ -2888,6 +2902,7 @@ Unit.prototype = {
             if (d.from == from && d.to == to) {
                 if (d.type == MOD_M && d.req.call(this, m, n)) lm.push(getmod(d, i));
                 if (d.type == ADD_M && d.req.call(this, m, n)) lm.push(getadd(d, i));
+                if (d.type == CANCEL_M && d.req.call(this, m, n)) lm.push(getcancel(d, i));
                 // should be from /to instead of just to.
                 if (d.type == REROLL_M && d.req.call(this, activeunit, activeunit.weapons[activeunit.activeweapon], targetunit)) lm.push(getreroll(d, i));
             }

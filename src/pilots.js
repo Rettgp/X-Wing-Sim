@@ -4745,7 +4745,31 @@ var PILOTS = [
         unit: "TIE Aggressor",
         skill: 7,
         upgrades: [ELITE, TURRET, MISSILE, MISSILE],
-        points: 22
+        points: 22,
+        init: function () {
+            var self = this;
+            this.adddicemodifier(ATTACK_M, CANCEL_M, DEFENSE_M, this, {
+                req: function () {
+                    return self.canusefocus();
+                },
+                aiactivate: function (m, n) {
+                    return FE_blank(m, n) > 0 || FE_focus(m) > 0;
+                },
+                f: function (m, n) {
+                    if (FE_focus(m) > 0 || FE_blank(m, n) > 0) {
+                        self.removefocustoken();
+                        this.log("Cancel blank and focus defense results");
+                        m = m - (FE_FOCUS * FE_focus(m));
+                        n = n - FE_blank(m, n);
+                    }
+                    return { 
+                        m: m,
+                        n: n
+                    }
+                },
+                str: "focus"
+            });
+        }
     },
     {
         name: "'Double Edge'",
@@ -4756,7 +4780,9 @@ var PILOTS = [
         unit: "TIE Aggressor",
         skill: 4,
         upgrades: [ELITE, TURRET, MISSILE, MISSILE],
-        points: 19
+        points: 19,
+        init: function () {
+        }
     },
     {
         name: "Onyx Squadron Escort",
