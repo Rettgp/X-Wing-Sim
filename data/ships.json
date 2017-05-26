@@ -1055,6 +1055,82 @@
 	],
         "actionList": ["FOCUS", "TARGET", "EVADE", "ROLL"]
     },
+    "TIE Aggressor": {
+        "firesnd": "tie_fire",
+        "flysnd": "tie_fly",
+        "img": ["tie-aggressor.png"],
+        "faction": ["EMPIRE"],
+        "scale": 1.0,
+        "code": "AG",
+        "weapon_type": "Laser",
+        "fire": 2,
+        "evade": 2,
+        "hull": 4,
+        "shield": 1,
+        "dial": [
+            {
+                "move": "BL1",
+                "difficulty": "GREEN"
+            },
+            {
+                "move": "BR1",
+                "difficulty": "GREEN"
+            },
+            {
+                "move": "TL2",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "BL2",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "F2",
+                "difficulty": "GREEN"
+            },
+            {
+                "move": "BR2",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "TR2",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "TL3",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "BL3",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "F3",
+                "difficulty": "GREEN"
+            },
+            {
+                "move": "BR3",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "TR3",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "F4",
+                "difficulty": "WHITE"
+            },
+            {
+                "move": "K4",
+                "difficulty": "RED"
+            },
+            {
+                "move": "F5",
+                "difficulty": "WHITE"
+            }
+        ],
+        "actionList": ["FOCUS", "TARGET", "ROLL"]
+    },
     "TIE Bomber": {
         "firesnd": "tie_fire",
         "flysnd": "tie_fly",

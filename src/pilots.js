@@ -4735,11 +4735,49 @@ var PILOTS = [
         upgrades: [],
         points: 13,
         cancelhit: zeb_fct
+    },
+    {
+        name: "Lieutenant Kestal",
+        faction: EMPIRE,
+        pilotid: 234,
+        unique: true,
+        done: true,
+        unit: "TIE Aggressor",
+        skill: 7,
+        upgrades: [ELITE, TURRET, MISSILE, MISSILE],
+        points: 22
+    },
+    {
+        name: "'Double Edge'",
+        faction: EMPIRE,
+        pilotid: 235,
+        unique: true,
+        done: true,
+        unit: "TIE Aggressor",
+        skill: 4,
+        upgrades: [ELITE, TURRET, MISSILE, MISSILE],
+        points: 19
+    },
+    {
+        name: "Onyx Squadron Escort",
+        faction: EMPIRE,
+        pilotid: 236,
+        unique: false,
+        done: true,
+        unit: "TIE Aggressor",
+        skill: 5,
+        upgrades: [TURRET, MISSILE, MISSILE],
+        points: 19
+    },
+    {
+        name: "Sienar Specialist",
+        faction: EMPIRE,
+        pilotid: 237,
+        unique: false,
+        done: true,
+        unit: "TIE Aggressor",
+        skill: 2,
+        upgrades: [TURRET, MISSILE, MISSILE],
+        points: 17
     }
-
-
-
-
-
-
 ];

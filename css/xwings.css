@@ -2661,7 +2661,8 @@ ul.caroussel table.upgs,
 ul.caroussel div.upgs {
     padding-left: 4px;
     vertical-align: top;
-    width: 100%
+    width: 100%;
+    margin-top: 3.5em;
 }
 
 ul.caroussel table.upgs .upg tr td:nth-child(1),

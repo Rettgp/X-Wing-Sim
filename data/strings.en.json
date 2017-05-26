@@ -462,6 +462,12 @@
         },
         "'Deathfire'": {
             "text": "When you reveal your maneuver dial or after you perform an action, you may perform a %BOMB% Upgrade card action as a free action."
+        },
+        "Lieutenant Kestal": {
+            "text": "When attacking, you may spend 1 focus token to cancel all of the defender's blank and focus results."
+        },
+        "'Double Edge'": {
+            "text": "Once per round, after you perform a secondary weapon attack that does not hit, you may perform an attack with a different weapon."
         }
     },
     "upgrades": {
