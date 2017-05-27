@@ -3232,7 +3232,7 @@ Unit.prototype = {
     isattacktwice: function () {
         return false;
     },
-    addattack: function (f, org, weaponlist, effect, targetselector, wrapper, global) {
+    addattack: function (f, org, weaponlist, effect, targetselector, wrapper, unwrap, global) {
         var self = this;
         if (typeof wrapper == "undefined") wrapper = "endattack";
         if (typeof global == "undefined") global = false;
@@ -3246,11 +3246,12 @@ Unit.prototype = {
                     anyactiveweapon = true;
                     break;
                 }
-            //this.log("trigger for "+wrapper+":"+" noattack?"+(this.noattack<round)+" active?"+anyactiveweapon+" attacker?"+attacker.name+" "+c+" "+h+" "+this.isfireobstructed()+" f?"+f.call(this,c,h,attacker));
             if (f.call(self, c, h, attacker) && self.noattack < round && anyactiveweapon &&
                 !self.iscloaked && !self.isfireobstructed()) {
                 var latedeferred = attacker.deferred;
+                console.log("Start add attack");
                 var fctattack = function () {
+                    console.log("attack");
                     var enemies;
                     var wpl = [];
                     this.deferred = latedeferred;
@@ -3269,6 +3270,7 @@ Unit.prototype = {
                         return; // No available target !
                     }
                     if (!f.call(this, c, h, attacker)) {
+                        console.log("CANT CALL F");
                         this.cleanupattack();
                         return;
                     }
@@ -3281,11 +3283,12 @@ Unit.prototype = {
                     //for (var i in wpl) this.log("+1 attack with "+wpl[i].name);
                     this.doattack(wpl, enemies);
                 }.bind(self);
-                if (wrapper != "endcombatphase" && wrapper != "warndeath" && phase == COMBAT_PHASE)
-                    attacker.newlock().done(fctattack);
-                else fctattack();
+                if (wrapper != "endcombatphase" && wrapper != "warndeath" && phase == COMBAT_PHASE) {
+                    console.log("new lock attack");
+                    org.newlock().done(fctattack);
+                } else fctattack();
             }
-        })
+        }).unwrapper(unwrap)
     },
     candoendmaneuveraction: function () {
         return this.candoaction() &&

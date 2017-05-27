@@ -1578,7 +1578,7 @@ var PILOTS = [
                 },
                 f: function (m, n) {
                     if (FCH_hit(m) > 0) {
-                        this.log("1 %HIT% -> 1 %CRIT% [%0]", self.name);
+                        activeunit.log("1 %HIT% -> 1 %CRIT% [%0]", self.name);
                         return m + FCH_CRIT - FCH_HIT;
                     }
                     return m;
@@ -4781,15 +4781,35 @@ var PILOTS = [
         skill: 4,
         upgrades: [ELITE, TURRET, MISSILE, MISSILE],
         points: 19,
-        doubleattack: -1,
+        candoubleattack: -1,
+        doubleattackweapons: [],
         init: function () {
-            this.doubleattack = -1;
-            this.addattack(function (c, h) {
-                return (c + h == 0) && !this.activeweapon.isprimary &&
-                    (this.doubleattack < round);
-            }, this, this.weapons, function () {
-                this.doubleattack = round;
-            }, null, "endcombatphase");
+            var self = this;
+            this.candoubleattack = -1;
+            this.doubleattackweapons = this.weapons;
+
+            var doubleattack = function (obj, weapons) {
+                obj.addattack(function (c, h) {
+                    var weapon = obj.weapons[obj.activeweapon];
+                    return (c + h == 0) && !weapon.isprimary &&
+                        (obj.candoubleattack < round);
+                }, obj, weapons, function () {
+                    obj.candoubleattack = round;
+                }, null, "endattack", "endcombatphase");
+            }
+
+            this.wrap_before("resolvedamage", this, function () {
+                self.doubleattackweapons = [];
+                for (var i = 0; i < self.weapons.length; i++) {
+                    var w = self.weapons[i];
+                    if (w.name != self.weapons[self.activeweapon].name &&
+                        w.isWeapon()) {
+                        self.doubleattackweapons.push(w);
+                    }
+                }
+
+                doubleattack(self, self.doubleattackweapons);
+            });
         }
     },
     {
@@ -4813,5 +4833,5 @@ var PILOTS = [
         skill: 2,
         upgrades: [TURRET, MISSILE, MISSILE],
         points: 17
-            }
-            ];
+    }
+];
