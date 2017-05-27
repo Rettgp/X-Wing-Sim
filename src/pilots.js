@@ -4762,7 +4762,7 @@ var PILOTS = [
                         m = m - (FE_FOCUS * FE_focus(m));
                         n = n - FE_blank(m, n);
                     }
-                    return { 
+                    return {
                         m: m,
                         n: n
                     }
@@ -4781,7 +4781,15 @@ var PILOTS = [
         skill: 4,
         upgrades: [ELITE, TURRET, MISSILE, MISSILE],
         points: 19,
+        doubleattack: -1,
         init: function () {
+            this.doubleattack = -1;
+            this.addattack(function (c, h) {
+                return (c + h == 0) && !this.activeweapon.isprimary &&
+                    (this.doubleattack < round);
+            }, this, this.weapons, function () {
+                this.doubleattack = round;
+            }, null, "endcombatphase");
         }
     },
     {
@@ -4794,7 +4802,7 @@ var PILOTS = [
         skill: 5,
         upgrades: [TURRET, MISSILE, MISSILE],
         points: 19
-    },
+            },
     {
         name: "Sienar Specialist",
         faction: EMPIRE,
@@ -4805,5 +4813,5 @@ var PILOTS = [
         skill: 2,
         upgrades: [TURRET, MISSILE, MISSILE],
         points: 17
-    }
-];
+            }
+            ];
