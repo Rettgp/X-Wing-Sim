@@ -3249,9 +3249,7 @@ Unit.prototype = {
             if (f.call(self, c, h, attacker) && self.noattack < round && anyactiveweapon &&
                 !self.iscloaked && !self.isfireobstructed()) {
                 var latedeferred = attacker.deferred;
-                console.log("Start add attack");
                 var fctattack = function () {
-                    console.log("attack");
                     var enemies;
                     var wpl = [];
                     this.deferred = latedeferred;
@@ -3270,7 +3268,6 @@ Unit.prototype = {
                         return; // No available target !
                     }
                     if (!f.call(this, c, h, attacker)) {
-                        console.log("CANT CALL F");
                         this.cleanupattack();
                         return;
                     }
@@ -3284,7 +3281,6 @@ Unit.prototype = {
                     this.doattack(wpl, enemies);
                 }.bind(self);
                 if (wrapper != "endcombatphase" && wrapper != "warndeath" && phase == COMBAT_PHASE) {
-                    console.log("new lock attack");
                     org.newlock().done(fctattack);
                 } else fctattack();
             }
