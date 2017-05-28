@@ -739,6 +739,7 @@ Unit.prototype = {
     wrap_before: function (name, org, before, unwrap) {
         var self = this;
         var save = self[name];
+        if (typeof save == "undefined") return;
         if (typeof self[name].save == "undefined" && this != Bomb.prototype && this != Unit.prototype && this != Weapon.prototype) self[name].save = self.__proto__[name];
         if (typeof save == "undefined") console.log("name" + name + " undefined");
         var f = function () {
