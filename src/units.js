@@ -3884,6 +3884,15 @@ Unit.prototype = {
             for (i in this.conditions) {
                 this.conds.push(this.conditions[i]);
             }
+            this.primaryweaponattack = this.weapons[0].getattack();
+            this.primaryweaponkey = A[this.weapons[0].type.toUpperCase()].key;
+            this.actualupgs = [];
+            for (var i = 0; i < this.upgrades.length; i++) {
+                if (this.upgrades[i].typecast() == "UPGRADE") {
+                    this.actualupgs.push(this.upgrades[i]);
+                }
+            }
+
             var rendered = Mustache.render(TEMPLATES["unit-combat"], this);
             return rendered;
         }

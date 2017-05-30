@@ -844,10 +844,8 @@ table.dataTable td:first-child {
 }
 
 .tdstat {
-    width: 100%;
-    padding: 2px;
     margin: 1px;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .remover {
@@ -2130,17 +2128,8 @@ footer input {
 }
 
 td {
-    vertical-align: top;
     margin: 0;
     border: 0;
-    text-align: left
-}
-
-#team1 .details td {
-    text-align: right
-}
-
-#team2 .details td {
     text-align: left
 }
 
@@ -3088,9 +3077,16 @@ ul#listunits .shipdial table {
     text-align: justify
 }
 
-tr:hover .tooltip,
-.tr:hover .tooltip,
+tr:hover td.tooltip,
+.tr:hover td.tooltip,
 .name:hover .tooltip {
+    transition: opacity .25s ease-in-out;
+    display: block;
+    opacity: 1
+}
+
+td:hover div.tooltip,
+.td:hover div.tooltip {
     transition: opacity .25s ease-in-out;
     display: block;
     opacity: 1

@@ -2466,7 +2466,7 @@ var UPGRADES = [
         issecondary: false,
         firesnd: "missile",
         isWeapon: function () {
-            return true;
+            return false;
         },
         declareattack: function (target) {
             this.unit.addhasfired();

@@ -699,18 +699,22 @@
                     <div class="usabletokens" style="width:100%">{{{getusabletokens}}}</div>
                 </div>
             </div>
+            <div style="display:table; width:100%">
+                <button style='display:table-cell;' class='statfire' onclick='if (!squadron[{{id}}].isdocked) squadron[{{id}}].togglehitsector(0)'>
+                        <span class="symbols">{{primaryweaponkey}}</span><span class="val">{{primaryweaponattack}}</span>
+                </button>
+                <button style="display:table-cell;" class='statevade' onclick='if (!squadron[{{id}}].dead&&!squadron[{{id}}].isdocked) squadron[{{id}}].togglerange();'><span class='symbols'>^</span><span class='val'>{{getagility}}</span></button>
+                <div style="display:table-cell;" class='statshield'><span class='symbols'>*</span><span class='val'>{{shield}}</span></div>
+                <div style="display:table-cell;" class='stathull'><span class='symbols'>&</span><span class='val'>{{hull}}</span></div>
+            </div>
             <table class="details" style="width:100%">
-                <tr>
-                    <td>
-                        <button class='statevade' onclick='if (!squadron[" + i + "].dead&&!squadron[" + i + "].isdocked) squadron[{{id}}].togglerange();'><span class='symbols'>^</span><span class='val'>{{getagility}}</span></button>
-                    </td>
-                    <td>
-                        <div class='statshield'><span class='symbols'>*</span><span class='val'>{{shield}}</span></div>
-                    </td>
-                    <td>
-                        <div class='stathull'><span class='symbols'>&</span><span class='val'>{{hull}}</span></div>
-                    </td>
-                    {{#upgrades}}{{{.}}}{{/upgrades}} {{#criticals}}{{{.}}}{{/criticals}} {{#conds}}{{{.}}}{{/conds}}
+                {{#weapons}}{{{.}}}{{/weapons}}
+            </table>
+            <table class="details" style="width:100%">
+                {{#actualupgs}}{{{.}}}{{/actualupgs}}
+            </table>
+            <table class="details" style="width:100%">
+                {{#criticals}}{{{.}}}{{/criticals}} {{#conds}}{{{.}}}{{/conds}}
             </table>
         </div>
     </script>
@@ -721,7 +725,7 @@
                 <code class="{{type}} upgrades"></code>
             </td>
             <td class="tdstat" colspan="3">
-                <span style="font-size:small">
+                <span style="font-size:10px">
 	    {{{trname}}}{{#ordnance}}<sup class="ordnance">x2</sup>{{/ordnance}}
 	  </span>
             </td>
@@ -741,7 +745,7 @@
         <tr>
             <td style="display:{{#left}}none{{/left}}{{^left}}block{{/left}}"><code class="{{type}} upgrades"></code></td>
             <td class="tdstat" colspan="3">
-                <span style="font-size:smaller">
+                <span style="font-size:10px">
 	    {{{trname}}}
 	  </span>
             </td>
@@ -756,39 +760,20 @@
     </script>
 
     <script id="weapon" type="x-tmpl-mustache">
-        {{#isprimary}}
-
-        <td class="{{^isactive}}inactive{{/isactive}} {{#nofire}}nofire{{/nofire}}">
-            <button class="statfire" onclick="if (!squadron[{{uid}}].isdocked) squadron[{{uid}}].togglehitsector({{rank}})">
-                    <span class="symbols">{{attackkey}}</span><span class="val">{{getattack}}</span>
-            </button> {{#tooltip}}
-            <td class="tooltip outoverflow">
-                <span>{{{.}}}</span>
-            </td>
-            {{/tooltip}}
-        </td>
-        </tr>
-
-        {{/isprimary}} {{^isprimary}}
-
+        {{^isprimary}}
         <tr class="{{^isactive}}inactive{{/isactive}} {{#nofire}}nofire{{/nofire}}">
-            <td style="display:{{#left}}none{{/left}}{{^left}}table-cell{{/left}}">
+            <td style="display:table-cell">
                 <button class="statfire" onclick="if (!squadron[{{uid}}].isdocked) squadron[{{uid}}].togglehitsector({{rank}})">
 	    <span class="val">{{getattack}}</span><span class="symbols">{{attackkey}}</span>
 	  </button>
             </td>
             <td class="tdstat" colspan="3">
-                <span style="font-size:small">
+                <span style="font-size:10px">
 	    {{{trname}}}{{#ordnance}}<sup class="ordnance">x2</sup>{{/ordnance}}
 	    <span style="font-size:smaller">
 	      {{#req}}<span class="symbols">{{.}}</span>{{/req}}[{{getlowrange}}-{{gethighrange}}]
                 </span>
                 </span>
-            </td>
-            <td style="display:{{^left}}none{{/left}}{{#left}}table-cell{{/left}}">
-                <button class="statfire" onclick="if (!squadron[{{uid}}].isdocked) squadron[{{uid}}].togglehitsector({{rank}})">
-	    {{getattack}}<span class="symbols">{{attackkey}}</span>
-	  </button>
             </td>
             {{#tooltip}}
             <td class="tooltip outoverflow">
@@ -801,25 +786,25 @@
     </script>
 
     <script id="upgrade" type="x-tmpl-mustache">
-        <tr {{^isactive}} class="inactive" {{/isactive}}>
-            <td style="font-size:small; display:{{#left}}none{{/left}}{{^left}}table-cell{{/left}}">
+        {{^isWeapon}} {{#first}}
+        <tr {{^isactive}} class="inactive" {{/isactive}}> {{/first}}
+            <td style="font-size:8px;">
                 <code class="{{type}} upgrades"></code>
             </td>
-            <td class="tdstat" colspan="3">
-                <span style="font-size:small">
+            <td class="tdstat">
+                {{#tooltip}}
+                <div class="tooltip outoverflow">
+                    <span>{{{.}}}</span>
+                </div>
+                {{/tooltip}} {{^tooltip}}
+                <td></td>{{/tooltip}}
+                <span style="font-size:9px">
 	    {{{trname}}}{{#ordnance}}<sup class="ordnance">x2</sup>{{/ordnance}}{{#hasshield}}<code class="cshield" title="{{shield}} shield(s)"></code><sup class="ordnance">x{{shield}}</sup>{{/hasshield}}{{#hasfocus}}<code class="xfocustoken" title="{{focus}}"></code><sup class="ordnance">x{{focus}}</sup>{{/hasfocus}}{{#hasswitch}}<code class="smallbutton symbols" onclick="if (!squadron[{{uid}}].isdocked) squadron[{{uid}}].upgrades[{{uuid}}].switch();">î</code>{{/hasswitch}}
 	  </span>
             </td>
-            <td style="font-size:small; display:{{^left}}none{{/left}}{{#left}}table-cell{{/left}}">
-                <code class="{{type}} upgrades"></code>
-            </td>
-            {{#tooltip}}
-            <td class="tooltip outoverflow">
-                <span>{{{.}}}</span>
-            </td>
-            {{/tooltip}} {{^tooltip}}
-            <td></td>{{/tooltip}}
+            {{#last}}
         </tr>
+        {{/last}} {{/isWeapon}}
     </script>
 
     <script id="usabletokens" type="x-tmpl-mustache">

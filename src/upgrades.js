@@ -86,6 +86,9 @@ Bomb.prototype = {
     isWeapon: function () {
         return false;
     },
+    typecast: function () {
+        return "BOMB";
+    },
     isBomb: function () {
         return true;
     },
@@ -339,6 +342,9 @@ Weapon.prototype = {
     isWeapon: function () {
         return true;
     },
+    typecast: function () {
+        return "WEAPON";
+    },
     desactivate: function () {
         if (this.ordnance && this.type.match(/Torpedo|Missile/)) {
             this.ordnance = false;
@@ -563,7 +569,22 @@ Upgrade.prototype = {
                 uuid: j
             }
         } else this.hasswitch = false;
+        this.first = true;
+        this.last = false;
+        for (j = 0; j < this.unit.upgrades.length; j++) {
+            var upg = this.unit.upgrades[j];
+            if (upg == this) {
+                if (j == (this.unit.upgrades.length - 1)) this.last = true;
+                break;
+            }
+            if (upg.typecast() == "UPGRADE") {
+                this.first = !this.first;
+            }
+        }
         return Mustache.render(TEMPLATES["upgrade"], this);
+    },
+    typecast: function () {
+        return "UPGRADE";
     },
     isWeapon: function () {
         return false;
